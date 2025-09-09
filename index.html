@@ -153,7 +153,7 @@
     .stack-top{ grid-area:top; }
     .stack-bottom{ grid-area:bottom; }
     .stack-left{ grid-area:left; text-align:right; align-items:flex-end; }
-    .stack-right{ grid-area:right; text-align:left; align-items:flex-start; }
+    .stack-right{ grid-area:right; align-items:flex-start; }
     @media (max-width: 900px){
       .ring{
         grid-template-columns:1fr;
@@ -212,19 +212,15 @@
     /* ===== PROJECTS: kompakt så sektionen ryms i en “sida” ===== */
     #projects.page{ padding-block: clamp(8px, 4vh, 28px); }
     #projects .kicker{ font-size:clamp(12px,1.6vw,16px); letter-spacing:.35em; }
-    #projects .projects{
-      gap:12px; margin-top:10px;
-    }
-    #projects .thumb{ aspect-ratio: 21 / 9; }       /* lägre kort */
+    #projects .projects{ gap:12px; margin-top:10px; }
+    #projects .thumb{ aspect-ratio: 21 / 9; }
     #projects .card{ border-radius:12px; }
     #projects .pad{ padding:8px 10px; }
     #projects .title{ font-size:14px; }
     #projects .muted{ font-size:12px; }
     @media (max-width:1100px){ #projects .projects{ grid-template-columns: repeat(2,1fr); } }
-    @media (max-width:640px){
-      #projects .projects{ grid-template-columns: 1fr; }
-      #projects .thumb{ aspect-ratio: 16 / 9; }     /* lite högre på mobil för balans */
-    }
+    @media (max-width:640px){ #projects .projects{ grid-template-columns: 1fr; }
+      #projects .thumb{ aspect-ratio: 16 / 9; } }
   </style>
 </head>
 <body>
@@ -468,7 +464,7 @@
       });
     })();
 
-    // ---- Scroll depth (25/50/75/100%) ----
+    // ---- Global scroll depth (25/50/75/100%) ----
     (function trackScrollDepth() {
       const marks = new Set();
       const points = [25, 50, 75, 100];
@@ -492,6 +488,84 @@
       const onScroll = () => { requestAnimationFrame(check); };
       window.addEventListener('scroll', onScroll, { passive: true });
       check(); // initial
+    })();
+  </script>
+
+  <!-- NEW: Tid i sektion + scrolldjup per sektion -->
+  <script>
+    (function sectionMetrics(){
+      // Välj sektioner att mäta
+      const sectionIds = ['about','projects','possible','promo'];
+      const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+      if (!sections.length) return;
+
+      // ---- TID I SEKTION (≥50% i vy) ----
+      let active = null, start = 0;
+      const timeObserver = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          const id = e.target.id;
+          if (e.isIntersecting && e.intersectionRatio >= 0.5) {
+            // avsluta tidigare
+            if (active && active !== id) {
+              const spent = Math.round((performance.now() - start) / 1000);
+              window.dataLayer.push({ event: 'section_time', section: active, seconds: spent });
+            }
+            if (active !== id) { active = id; start = performance.now(); }
+          } else if (active === id && e.intersectionRatio < 0.5) {
+            const spent = Math.round((performance.now() - start) / 1000);
+            window.dataLayer.push({ event: 'section_time', section: id, seconds: spent });
+            active = null;
+          }
+        });
+      }, { threshold: [0, 0.5, 1] });
+      sections.forEach(s => timeObserver.observe(s));
+
+      window.addEventListener('beforeunload', () => {
+        if (active) {
+          const spent = Math.round((performance.now() - start) / 1000);
+          window.dataLayer.push({ event: 'section_time', section: active, seconds: spent });
+        }
+      });
+
+      // ---- SCROLLDJUP PER SEKTION (25/50/75/100%) ----
+      const points = [25, 50, 75, 100];
+      const marks = new Map(sections.map(s => [s.id, new Set()]));
+
+      function checkSectionDepth() {
+        const st = document.documentElement.scrollTop || document.body.scrollTop;
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+
+        sections.forEach(sec => {
+          const rect = sec.getBoundingClientRect();
+          const secTop = st + rect.top;
+          const secH = sec.offsetHeight || rect.height;
+          const denom = Math.max(1, secH - vh); // undvik /0 för korta sektioner
+
+          // progress ~ var i sektionen viewporten befinner sig
+          const progress = Math.max(0, Math.min(1, (st - secTop + vh / 2) / denom));
+          const pct = Math.round(progress * 100);
+
+          const done = marks.get(sec.id);
+          points.forEach(p => {
+            if (pct >= p && !done.has(p)) {
+              done.add(p);
+              window.dataLayer.push({ event: 'section_scrolldepth', section: sec.id, percent: p });
+            }
+          });
+        });
+      }
+
+      let ticking = false;
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(() => { checkSectionDepth(); ticking = false; });
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', () => checkSectionDepth(), { passive: true });
+      checkSectionDepth(); // initial
     })();
   </script>
 </body>
