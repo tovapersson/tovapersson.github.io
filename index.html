@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
+  <!-- DataLayer init (måste ligga före GTM) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    (function(){
+      var env = /localhost|127\.0\.0\.1|staging/i.test(location.host) ? 'dev' : 'prod';
+      window.dataLayer.push({
+        event: 'page_view',
+        page: {
+          url: location.href,
+          path: location.pathname,
+          title: document.title,
+          language: document.documentElement.lang
+        },
+        site: { name: 'Tova Persson Portfolio', env: env }
+      });
+    })();
+  </script>
+
   <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KBG4JPKN');</script>
-<!-- End Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KBG4JPKN');</script>
+  <!-- End Google Tag Manager -->
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -210,20 +228,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </style>
 </head>
 <body>
-      <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBG4JPKN"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBG4JPKN"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
   <!-- TOPPMENY -->
-   
   <div class="top-location" role="navigation" aria-label="Huvudmeny">
     <div class="topbar">
       <nav class="topmenu" aria-label="Huvudlänkar">
         <span class="loc">LOCATION — Stockholm, Sweden</span>
-        <a href="#about">About me</a>
-        <a href="#projects">Projects / Archive</a>
-        <a href="#possible">What I Do</a>
-        <a href="#promo">Contact Me</a>
+        <a href="#about"    data-gtm="nav">About me</a>
+        <a href="#projects" data-gtm="nav">Projects / Archive</a>
+        <a href="#possible" data-gtm="nav">What I Do</a>
+        <a href="#promo"    data-gtm="nav">Contact Me</a>
       </nav>
     </div>
   </div>
@@ -257,7 +275,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <section id="projects" class="page" aria-labelledby="projects-h">
         <div class="link-row">
           <h2 id="projects-h" class="kicker" style="margin:0">P R O J E C T S  /  A R C H I V E</h2>
-          <a href="#" class="muted">Se allt →</a>
+          <a href="#" class="muted" data-gtm="projects_all">Se allt →</a>
         </div>
 
         <div class="projects" role="list">
@@ -363,9 +381,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <img src="you.png" alt="Banner" style="width:100%;height:100%;object-fit:cover;display:block;">
           <div class="overlay" aria-label="Snabblänkar">
             <ul class="cta-list">
-              <li><a href="mailto:tova.epersson@gmail.com">Contact me</a></li>
-              <li><a href="Tova_Persson_CV.pdf" download="Tova_Persson_CV.pdf">Resume</a></li>
-              <li><a href="https://www.linkedin.com/in/tovas" target="_blank" rel="noopener">LinkedIn</a></li>
+              <li><a href="mailto:tova.epersson@gmail.com" data-gtm="cta">Contact me</a></li>
+              <li><a href="Tova_Persson_CV.pdf" download="Tova_Persson_CV.pdf" data-gtm="cta">Resume</a></li>
+              <li><a href="https://www.linkedin.com/in/tovas" target="_blank" rel="noopener" data-gtm="cta">LinkedIn</a></li>
             </ul>
           </div>
         </div>
@@ -385,6 +403,96 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     setTopbarHeight();
     window.addEventListener('resize', setTopbarHeight);
     document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- Tracking: link clicks, project impressions/clicks, scroll depth -->
+  <script>
+    // ---- Link click tracking (nav, CTA, outbound, download, mailto) ----
+    document.addEventListener('click', function (e) {
+      const a = e.target.closest('a');
+      if (!a) return;
+
+      const href = a.getAttribute('href') || '';
+      const label = (a.textContent || '').trim();
+      const isMailto   = href.startsWith('mailto:');
+      const isDownload = a.hasAttribute('download') || /\.(pdf|docx?|xlsx?|pptx?|zip)$/i.test(href);
+      const isHttp     = /^https?:\/\//i.test(href);
+      const isOutbound = isHttp && a.host && a.host !== location.host;
+      const section =
+        a.dataset.gtm ||
+        (a.closest('.topmenu') ? 'nav' : (a.closest('.cta-list') ? 'cta' : null));
+
+      window.dataLayer.push({
+        event: 'link_click',
+        link: {
+          label: label || href,
+          url: href,
+          section: section,
+          outbound: !!isOutbound,
+          download: !!isDownload,
+          mailto: !!isMailto
+        }
+      });
+    }, { capture: true });
+
+    // ---- Project impressions (once per kort) + klick ----
+    (function trackProjectImpressions() {
+      const container = document.querySelector('#projects');
+      const cards = container ? container.querySelectorAll('.card') : [];
+      if (!('IntersectionObserver' in window) || !cards.length) return;
+
+      const seen = new WeakSet();
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !seen.has(entry.target)) {
+            seen.add(entry.target);
+            const title = entry.target.querySelector('.title')?.textContent?.trim() || 'Untitled';
+            window.dataLayer.push({
+              event: 'project_impression',
+              project: { title: title }
+            });
+          }
+        });
+      }, { threshold: 0.5 });
+
+      cards.forEach(c => obs.observe(c));
+
+      container.addEventListener('click', (e) => {
+        const card = e.target.closest('.card');
+        if (!card) return;
+        const title = card.querySelector('.title')?.textContent?.trim() || 'Untitled';
+        window.dataLayer.push({
+          event: 'project_click',
+          project: { title: title }
+        });
+      });
+    })();
+
+    // ---- Scroll depth (25/50/75/100%) ----
+    (function trackScrollDepth() {
+      const marks = new Set();
+      const points = [25, 50, 75, 100];
+
+      function check() {
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - doc.clientHeight;
+        if (max <= 0) return;
+        const pct = Math.round((doc.scrollTop / max) * 100);
+
+        points.forEach(p => {
+          if (pct >= p && !marks.has(p)) {
+            marks.add(p);
+            window.dataLayer.push({ event: 'scroll_depth', scroll: { percent: p } });
+          }
+        });
+
+        if (marks.size === points.length) window.removeEventListener('scroll', onScroll);
+      }
+
+      const onScroll = () => { requestAnimationFrame(check); };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      check(); // initial
+    })();
   </script>
 </body>
 </html>
