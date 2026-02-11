@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Under Your Skin — Tova Persson</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
+  
+  <style>
+    :root { --bg: #f7f7f7; --fg: #0a0a0a; --muted: #6b7280; --line: #e5e7eb; --accent: #1221a5; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font-family: 'Inter', sans-serif; line-height: 1.6; }
+    .container { max-width: 900px; margin: 0 auto; padding: 100px 24px; }
+    
+    /* Navigation */
+    .nav-mini { position: fixed; top: 0; left: 0; right: 0; background: rgba(247,247,247,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); padding: 15px 24px; display: flex; justify-content: space-between; z-index: 100; }
+    .nav-mini a { text-transform: uppercase; font-size: 11px; letter-spacing: 0.2em; text-decoration: none; color: var(--muted); font-weight: 600; }
+    .nav-mini a:hover { color: var(--fg); }
+
+    /* Header */
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 8vw, 72px); margin: 0 0 10px 0; }
+    .meta { color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-size: 13px; margin-bottom: 20px; }
+
+    /* SKILLS / BUTTONS */
+    .skills-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 50px; }
+    .skill-tag { 
+      padding: 8px 16px; 
+      background: #fff; 
+      border: 1px solid var(--line); 
+      border-radius: 50px; 
+      font-size: 12px; 
+      font-weight: 600; 
+      text-transform: uppercase; 
+      letter-spacing: 0.05em; 
+      color: var(--fg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    
+    /* Case Grid */
+    @media (min-width: 768px) {
+      .case-grid { 
+        display: grid; 
+        grid-template-columns: 250px 1fr; 
+        gap: 40px; 
+        margin-bottom: 60px;
+        border-top: 1px solid var(--line);
+        padding-top: 40px;
+      }
+    }
+    @media (max-width: 767px) {
+      .case-grid { margin-bottom: 40px; border-top: 1px solid var(--line); padding-top: 20px; }
+    }
+
+    .case-label { 
+      font-size: 12px; 
+      text-transform: uppercase; 
+      letter-spacing: 0.2em; 
+      color: var(--muted); 
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .case-content h3 { margin-top: 0; font-size: 20px; font-weight: 600; }
+    .case-content p { font-size: 17px; color: var(--fg); margin-bottom: 20px; }
+    .case-content ul { padding-left: 20px; margin-bottom: 20px; }
+    .case-content li { font-size: 17px; margin-bottom: 8px; }
+
+    /* Testimonial / Quote */
+    .testimonial {
+      background: #fff;
+      padding: 50px 40px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      margin-top: 80px;
+      position: relative;
+    }
+    .testimonial-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(20px, 2.8vw, 24px);
+      line-height: 1.5;
+      color: var(--fg);
+      margin-bottom: 24px;
+      text-align: left;
+    }
+    .testimonial-author {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: left;
+    }
+
+    .project-image { width: 100%; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--line); }
+    footer { margin-top: 80px; padding-bottom: 50px; text-align: center; color: var(--muted); font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav-mini">
+    <a href="index.html">← Back</a>
+    <a href="index.html#promo">Contact</a>
+  </nav>
+
+  <main class="container">
+    <div class="meta">CRO Project</div>
+    <h1>Under Your Skin</h1>
+
+    <div class="skills-container">
+      <div class="skill-tag">CRO</div>
+      <div class="skill-tag">UX</div>
+      <div class="skill-tag">A/B Testing</div>
+      <div class="skill-tag">Loyalty strategy</div>
+      <div class="skill-tag">Full-funnel optimisation</div>
+    </div>
+    
+    <section class="case-grid">
+      <div class="case-label">Background</div>
+      <div class="case-content">
+        <p>This project focused on how Under Your Skin could convert first-time buyers into loyal, returning customers through strategic CRO and UX improvements.</p>
+        <p>Customer insights showed that shoppers in the 45–65+ segment primarily purchase via mobile, value clarity and trust, and seek long-term self-care solutions. Behavioral analysis revealed significant friction, with major drop-offs indicating gaps in navigation, motivation, and perceived value.</p>
+      </div>
+    </section>
+
+    <img src="Underyourskin.png" alt="Under Your Skin Project" class="project-image">
+
+    <section class="case-grid">
+      <div class="case-label">Approach</div>
+      <div class="case-content">
+        <h3>UX & Funnel Optimisation</h3>
+        <ul>
+          <li>Identified friction points through behavioral data, recordings, and funnel analysis.</li>
+          <li>Simplified mobile navigation to reduce cognitive load.</li>
+          <li>Strengthened social proof and "before/after" clarity to support purchase confidence.</li>
+        </ul>
+
+        <h3>Loyalty & Retention Strategy</h3>
+        <ul>
+          <li>Positioned the loyalty club as the core retention driver, making membership more visible and easy to join.</li>
+          <li>Reduced login friction and streamlined membership flows.</li>
+          <li>Designed clearer value communication around points and community belonging.</li>
+        </ul>
+
+        <h3>Testing & Iteration</h3>
+        <ul>
+          <li>Validated hypotheses through A/B testing; transforming loyalty entry points into visual CTAs increased attention and registrations.</li>
+          <li>Applied learnings to hierarchy and emotional storytelling across the customer experience.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="case-grid">
+      <div class="case-label">Results</div>
+      <div class="case-content">
+        <p>The work established a clearer retention-focused customer journey where first purchases feel trustworthy and joining the loyalty program is a natural next step.</p>
+        <p>Together, these improvements strengthen the foundation for higher retention, stronger lifetime value, and a more community-driven brand experience.</p>
+      </div>
+    </section>
+
+    <div class="testimonial">
+      <div class="testimonial-text">
+        “This is a very strong and well-grounded piece of work that clearly demonstrates a deep understanding of CRO and user behavior analysis translated into concrete improvements. You present a credible, data-driven analysis and connect engagement gaps to real friction in the current experience, while proposing clear, well-motivated optimizations across key touchpoints of the customer journey. Overall, this is a mature, analytical, and structured CRO project that meets a very high standard.”
+      </div>
+      <div class="testimonial-author">— Sabine Ljunggren, Course Manager at Maia Marketing</div>
+    </div>
+
+  </main>
+
+  <footer>
+    © Tova Persson
+  </footer>
+
+</body>
+</html>

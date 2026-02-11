@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <!-- DataLayer init (måste ligga före GTM) -->
   <script>
     window.dataLayer = window.dataLayer || [];
     (function(){
@@ -19,13 +18,11 @@
     })();
   </script>
 
-  <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-KBG4JPKN');</script>
-  <!-- End Google Tag Manager -->
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,334 +30,321 @@
   <meta name="description" content="Portfolio för Tova Persson – marknadsföring, kampanjer och case." />
   <meta name="color-scheme" content="light dark" />
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
 
-  <!-- Preload Maragsa -->
-  <link rel="preload" href="assets/fonts/Maragsa.woff2" as="font" type="font/woff2" crossorigin>
-
   <style>
-    @font-face{ font-family:'Maragsa'; src:url('assets/fonts/Maragsa.woff2') format('woff2'), url('assets/fonts/Maragsa.woff') format('woff'); font-weight:400; font-style:normal; font-display:swap; }
-    @font-face{ font-family:'Garet'; src:url('assets/fonts/Garet-Book.woff2') format('woff2'), url('assets/fonts/Garet-Book.woff') format('woff'); font-weight:400; font-style:normal; font-display:swap; }
-    @font-face{ font-family:'Garet'; src:url('assets/fonts/Garet-Heavy.woff2') format('woff2'), url('assets/fonts/Garet-Heavy.woff') format('woff'); font-weight:700; font-style:normal; font-display:swap; }
-
     :root{
       --bg:#f7f7f7; --fg:#0a0a0a; --muted:#6b7280; --line:#e5e7eb;
-      --card:#ffffff; --accent:#0a0a0a; --burgundy:#800020; --radius:14px;
-      --topbar-h: 44px;
-      --hero-gap: clamp(0px, 0.5vh, 10px);
-      --ink:#1221a5;
+      --card:#ffffff; --accent:#0a0a0a; --radius:14px;
+      --red-accent: #e63946;
     }
     @media (prefers-color-scheme: dark){
-      :root{ --bg:#0b0b0b; --fg:#f5f5f5; --muted:#a3a3a3; --line:#1f2937; --card:#101010; --accent:#f5f5f5 }
+      :root{ --bg:#0b0b0b; --fg:#f5f5f5; --muted:#a3a3a3; --line:#1f2937; --card:#101010; }
     }
 
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{ margin:0; background:var(--bg); color:var(--fg); font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; line-height:1.6 }
+    body{ margin:0; background:var(--bg); color:var(--fg); font-family: Inter, sans-serif; line-height:1.6 }
     img{max-width:100%;display:block}
     a{color:inherit;text-decoration:none}
-    a:hover{text-decoration:none}
-
+    
     .wrap{ display:block; min-height:100svh }
-    main{ padding: 24px clamp(16px,6vw,96px); }
+    .content-wrap { padding: 0 clamp(16px, 6vw, 96px); max-width: 1400px; margin: 0 auto; width: 100%; }
 
-    /* ===== TOPPMENY ===== */
-    .top-location{
-      position:fixed; top:0; left:0; right:0; z-index:9999;
-      border-bottom:1px solid var(--line);
-      background:color-mix(in srgb, var(--bg) 92%, #fff 8%);
-      padding:0;
-    }
-    .topbar{ display:flex; justify-content:center; align-items:center; padding:16px 24px; max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
-    .topmenu{ display:flex; align-items:center; flex-wrap:nowrap; white-space:nowrap; gap:clamp(18px, 4vw, 56px); width:max-content; margin:0 auto; }
-    .topmenu a, .topmenu .loc{ text-transform:uppercase; letter-spacing:.35em; font-size:clamp(10px, 1.0vw, 14px); color:var(--muted); text-align:center; }
+    /* ===== NAVIGATION ===== */
+    .top-location{ position:fixed; top:0; left:0; right:0; z-index:9999; border-bottom:1px solid var(--line); background:rgba(247, 247, 247, 0.8); backdrop-filter: blur(10px); }
+    .topbar{ display:flex; justify-content:center; align-items:center; padding:16px 24px; }
+    .topmenu{ display:flex; gap:clamp(18px, 4vw, 56px); }
+    .topmenu a { text-transform:uppercase; letter-spacing:.35em; font-size:clamp(10px, 1.0vw, 14px); color:var(--muted); font-weight: 600; }
     .topmenu a:hover{ color:var(--fg) }
 
-    .full-bleed{ width:90vw; margin-left:calc(50% - 50vw); }
-    .masthead .full-bleed{ width:90vw; margin:0 auto; }
-    .masthead .full-bleed img{ display:block; margin:0 auto; }
-
-    .name{
-      font-family:'Maragsa', Georgia, 'Times New Roman', serif;
-      font-weight:400; letter-spacing:.04em; text-transform:capitalize;
-      line-height:.9; font-size: clamp(64px, 22vw, 360px);
-      white-space: nowrap; margin:0; text-align:center;
+    /* ===== MASTHEAD ===== */
+    .masthead { text-align: center; }
+    .profile-img {
+      width: min(35vw, 320px);
+      height: 280px; 
+      object-fit: cover;
+      object-position: 50% 20%;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      margin: 0 auto 20px;
     }
 
-    .about{ max-width: 70ch; margin: 0 auto; color:var(--fg) }
-    .divider{ border-top:1px solid var(--line); margin: 28px 0 }
+    .hero-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(20px, 5vw, 60px);
+      margin-top: 30px;
+    }
 
-    .link-row{ display:flex; gap:18px; flex-wrap:wrap; align-items:center }
-    .link-row a{ letter-spacing:.25em; text-transform:uppercase; font-size:12px; padding:10px 0 }
+    .hero-credentials {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-credentials::before {
+      content: "";
+      width: 40px;
+      height: 1px;
+      background: var(--line);
+      margin-bottom: 10px;
+    }
+    .hero-role {
+      font-size: clamp(13px, 1.8vw, 16px);
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      font-weight: 700;
+      color: var(--fg);
+    }
+    .hero-school {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 600;
+      font-size: clamp(16px, 2.2vw, 20px);
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .hero-location {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      opacity: 0.8;
+    }
 
-    .projects{ display:grid; grid-template-columns: repeat(3,1fr); gap:14px; margin-top:18px }
+    /* Knappar */
+    .btn {
+      padding: 10px 24px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: all 0.3s ease;
+      background: var(--card);
+      white-space: nowrap;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .btn:hover {
+      background: var(--fg);
+      color: var(--bg);
+      border-color: var(--fg);
+    }
+
+    /* CV Animation & Options */
+    .cv-options {
+      display: none; 
+      gap: 10px;
+      animation: fadeIn 0.3s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-container { flex-direction: column; gap: 20px; }
+      .hero-container .btn, .cv-options { order: 2; width: 220px; justify-content: center; }
+      .hero-credentials { order: 1; }
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about-text {
+      font-size: clamp(17px, 2.1vw, 22px);
+      max-width: 65ch;
+      margin: 0 auto;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* ===== PROJECTS GRID ===== */
+    .kicker { font-size: clamp(12px, 1.6vw, 16px); letter-spacing: .35em; text-transform: uppercase; color: var(--muted); text-align: center; margin-bottom: 30px; }
+    .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
     @media (max-width: 1100px){ .projects{ grid-template-columns: repeat(2,1fr) } }
     @media (max-width: 640px){ .projects{ grid-template-columns: 1fr } }
-    .card{ border:1px solid var(--line); border-radius:var(--radius); background:#fff; overflow:hidden }
-    .thumb{ width:100%; aspect-ratio: 3 / 2; object-fit: cover; background:#ddd; display:block; height:auto; }
-    .pad{ padding:12px 14px }
-    .title{ margin:0; font-size:16px }
-    .muted{ color:var(--muted) }
 
-    .possible-ring{ padding-top:0; padding-bottom:0; }
-    .ring{
-      width:min(1200px,92vw); margin-inline:auto;
-      display:grid;
-      grid-template-columns: 1fr auto 1fr;
-      grid-template-rows: auto auto auto;
-      grid-template-areas:
-        ".    top     ."
-        "left title  right"
-        ".   bottom  .";
-      gap:clamp(16px,4vw,40px);
-      align-items:center; justify-items:center;
-    }
-    .possible-big{ grid-area:title; font-family:'Playfair Display',serif; font-weight:700; line-height:.9; letter-spacing:-.01em; font-size:clamp(52px,12svh,18svh); margin:0; text-align:center; }
-    .stack{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; font-family:'Playfair Display', serif; font-weight:600; font-style:italic; font-size:clamp(14px, 1.9vw, 24px); line-height:1.25; color:color-mix(in srgb, var(--fg) 92%, #000 8%); text-align:center; }
-    .stack-top{ grid-area:top; } .stack-bottom{ grid-area:bottom; } .stack-left{ grid-area:left; text-align:right; align-items:flex-end; } .stack-right{ grid-area:right; align-items:flex-start; }
-    @media (max-width: 900px){
-      .ring{ grid-template-columns:1fr; grid-template-areas:"title" "top" "left" "right" "bottom"; }
-      .stack-left,.stack-right{ text-align:center; align-items:center; }
-    }
+    .card-link { display: block; transition: transform 0.3s ease; }
+    .card-link:hover { transform: translateY(-5px); }
+    .card { border: 1px solid var(--line); border-radius: 12px; background: #fff; overflow: hidden; height: 100%; }
+    .thumb { width: 100%; aspect-ratio: 2.5 / 1; object-fit: cover; }
+    .pad { padding: 12px 15px; }
+    .title { margin: 0; font-size: 14px; font-weight: 700; }
+    .muted { color: var(--muted); font-size: 11px; margin-top: 4px; }
 
-    /* ====== BANNER ====== */
-    #promo .frame{ aspect-ratio:21/9; width:100%; overflow:hidden; border-radius:12px; border:1px solid var(--line); position:relative; }
-    #promo .overlay{
-      position:absolute; right:clamp(16px,4vw,56px); bottom:clamp(16px,4vw,56px);
-      width:min(560px, 40vw); max-width:90%; z-index:2;
-      height:clamp(260px, 45vh, 560px); display:flex;
-    }
-    #promo .cta-list{ list-style:none; margin:0; padding:0 0 clamp(8px,1.6vh,18px) 0; width:100%; display:flex; flex-direction:column; justify-content:flex-end; gap:clamp(6px,1.2vh,12px); height:100%; }
-    #promo .cta-list li{ text-align:right; }
-    #promo .cta-list a{
-      display:inline-block; color:#fff; text-decoration:none;
-      font-family:'Garet', Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
-      text-transform:uppercase; letter-spacing:.28em; font-weight:700;
-      font-size:clamp(16px, 2.2vw, 40px); padding:.15em 0 .35em;
-      text-align:right; text-shadow:0 2px 4px rgba(0,0,0,.35);
-      border-bottom:2px solid rgba(255,255,255,.98);
-    }
-    #promo .cta-list li:last-child a{ border-bottom:none; }
-    #promo .cta-list a:hover{ opacity:.92; transform:translateX(-3px); transition:.15s ease; }
+    /* ===== SECTIONS & SNAP ===== */
+    html { scroll-snap-type: y mandatory; }
+    .page { min-height: 100svh; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center; padding-block: 40px; }
 
-    @media (max-width: 640px){
-      #promo .overlay{ left:12px; right:12px; width:auto; height:auto; }
-      #promo .cta-list{ justify-content:flex-end; gap:10px; }
-      #promo .cta-list li{ text-align:center; }
-      #promo .cta-list a{ text-align:center; letter-spacing:.22em; }
+    /* ===== WHAT I DO (RING) ===== */
+    .ring { display: grid; grid-template-columns: 1fr auto 1fr; grid-template-areas: ". top ." "left title right" ". bottom ."; gap: 20px; align-items: center; justify-items: center; }
+    .possible-big { grid-area: title; font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(30px, 6.5vw, 85px); line-height: 0.85; text-align: center; }
+    .stack { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; font-family: 'Playfair Display', serif; font-weight: 600; font-style: italic; font-size: clamp(11px, 1.4vw, 18px); color: var(--muted); }
+    .stack-top { grid-area: top; text-align: center; }
+    .stack-bottom { grid-area: bottom; text-align: center; }
+    .stack-left { grid-area: left; text-align: center; align-items: center; }
+    .stack-right { grid-area: right; text-align: center; align-items: center; }
+
+    @media (max-width: 900px) {
+      .ring { grid-template-columns: 1fr; grid-template-areas: "top" "title" "left" "right" "bottom"; gap: 30px; }
+      .stack-left, .stack-right { text-align: center; align-items: center; }
     }
 
-    html, body { height: 100%; }
-    html { scroll-snap-type: y mandatory; overscroll-behavior-y: contain; }
-    .page{
-      min-height: 100svh; scroll-snap-align: start; scroll-margin-top: calc(var(--topbar-h) + 12px);
-      display: grid; align-content: center; padding-block: clamp(24px, 6vw, 64px);
+    /* ===== CONTACT SECTION ===== */
+    #promo .frame { height: 75vh; width: 100vw; position: relative; overflow: hidden; }
+    #promo .frame img { width: 100%; height: 100%; object-fit: cover; }
+    #promo .overlay { position: absolute; right: 5%; bottom: 10%; text-align: right; }
+    #promo .cta-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    
+    #promo .cta-list a { 
+      color: var(--red-accent); 
+      font-family: 'Inter', sans-serif; 
+      font-weight: 800; 
+      font-size: clamp(22px, 3.5vw, 36px); 
+      text-transform: uppercase; 
+      text-decoration: none; 
+      transition: color 0.3s ease, transform 0.3s ease;
+      display: inline-block;
+      cursor: pointer;
     }
-    .divider{ display:none; }
-    @media (max-width: 640px), (prefers-reduced-motion: reduce){
-      html { scroll-snap-type: none; }
-      .page{ min-height:auto; }
-      .divider{ display:block; }
+
+    #promo .cta-list a:hover { 
+      color: #fff; 
+      transform: translateX(-5px); 
     }
 
-    :focus-visible{ outline:2px dashed color-mix(in srgb, var(--fg) 70%, transparent); outline-offset:3px; border-radius:8px }
-
-    /* ===== PROJECTS: kompakt ===== */
-    #projects.page{ padding-block: clamp(8px, 4vh, 28px); }
-    #projects .kicker{ font-size:clamp(12px,1.6vw,16px); letter-spacing:.35em; }
-    #projects .projects{ gap:12px; margin-top:10px; }
-    #projects .thumb{ aspect-ratio: 21 / 9; }
-    #projects .card{ border-radius:12px; }
-    #projects .pad{ padding:8px 10px; }
-    #projects .title{ font-size:14px; }
-    #projects .muted{ font-size:12px; }
-    @media (max-width:1100px){ #projects .projects{ grid-template-columns: repeat(2,1fr); } }
-    @media (max-width:640px){ #projects .projects{ grid-template-columns: 1fr; } #projects .thumb{ aspect-ratio: 16 / 9; } }
-
-    /* === CTA under bannern (inne i #promo) === */
-    .below-banner-cta{ display:flex; justify-content:center; margin-top:16px; }
-    .bottom-link-btn{
-      display:inline-block; padding:.75rem 1.25rem; border-radius:9999px;
-      background:var(--fg); color:var(--bg); font-weight:700; letter-spacing:.12em; text-transform:uppercase;
-      box-shadow:0 8px 24px rgba(0,0,0,.18);
+    .bottom-cv-options {
+        display: none;
+        flex-direction: column;
+        gap: 8px;
+        animation: fadeIn 0.3s ease forwards;
     }
-    .bottom-link-btn:hover{ opacity:.95; transform:translateY(-1px); transition:.12s ease }
 
-    footer{ text-align:center; margin-top:32px; }
+    footer { text-align: center; padding: 20px 0; color: var(--muted); font-size: 12px; }
   </style>
 </head>
 <body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBG4JPKN"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBG4JPKN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-  <!-- TOPPMENY -->
-  <div class="top-location" role="navigation" aria-label="Huvudmeny">
+  <div class="top-location">
     <div class="topbar">
-      <nav class="topmenu" aria-label="Huvudlänkar">
-        <span class="loc">LOCATION — Stockholm, Sweden</span>
-        <a href="#about"    data-gtm="nav">About me</a>
-        <a href="#projects" data-gtm="nav">Projects / Archive</a>
-        <a href="#possible" data-gtm="nav">What I Do</a>
-        <a href="#promo"    data-gtm="nav">Contact Me</a>
+      <nav class="topmenu">
+        <a href="#about">About me</a>
+        <a href="#projects">Projects</a>
+        <a href="#possible">What I Do</a>
+        <a href="#promo">Contact</a>
       </nav>
     </div>
   </div>
 
   <div class="wrap">
     <main>
+      <section class="masthead page">
+        <div class="content-wrap">
+          <img src="DSC_2849.JPG" alt="Tova Persson" class="profile-img">
+          <img src="banner.png" alt="Tova Persson Name" style="width:100%; max-width:1100px; margin: 0 auto;">
+          
+          <div class="hero-container">
+            <div id="cv-container-top">
+                <div id="cv-main-btn-top" class="btn" onclick="toggleCV('top')">Download my resume</div>
+                <div id="cv-options-top" class="cv-options">
+                    <a href="CV SWE .pdf" class="btn btn-sm" download>Swedish</a>
+                    <a href="Resume - TovaPersson-ENG.pdf" class="btn btn-sm" download>English</a>
+                </div>
+            </div>
+            
+            <div class="hero-credentials">
+              <span class="hero-role">Growth Marketing</span>
+              <span class="hero-school">Berghs School of Communication</span>
+              <span class="hero-location">Based in Stockholm, Sweden</span>
+            </div>
 
-      <!-- MASTHEAD -->
-      <section class="masthead page" aria-label="Masthead"
-        style="display:flex; flex-direction:column; align-items:center; gap:0; padding-top:calc(var(--topbar-h) + var(--hero-gap)); min-height:auto;">
-        <figure style="margin:0 0 var(--hero-gap) 0;">
-          <img src="DSC_2849.JPG" alt="Tova Persson porträtt"
-               style="width:min(36vw, 420px); height:auto; border-radius:12px; border:1px solid var(--line); display:block;">
-        </figure>
-
-        <div class="full-bleed">
-          <img src="banner.png" alt="Tova Persson — banner" style="width:100%;height:auto;display:block;">
+            <a href="https://www.linkedin.com/in/tovas" target="_blank" class="btn">Linkedin</a>
+          </div>
         </div>
       </section>
 
-      <!-- ABOUT -->
-      <section id="about" class="page" aria-labelledby="about-h" style="text-align:center;">
-        <h2 id="about-h" class="kicker" style="margin:0 0 10px">A B O U T  M E</h2>
-        <p class="about">
-          I enjoy working where analysis meets creativity. For me, growth marketing is about testing, measuring, and optimizing until I find what truly works. I’m drawn to clear messaging, simple design, and results that can be tracked.
-        </p>
-      </section>
-
-      <!-- PROJECTS -->
-      <section id="projects" class="page" aria-labelledby="projects-h">
-        <div class="link-row">
-          <h2 id="projects-h" class="kicker" style="margin:0">P R O J E C T S  /  A R C H I V E</h2>
-          <a href="#" class="muted" data-gtm="projects_all">Se allt →</a>
-        </div>
-
-        <div class="projects" role="list">
-          <article class="card" role="listitem">
-            <img class="thumb" src="DSC_Fotografiska.jpeg" alt="Projekt 1" loading="lazy">
-            <div class="pad">
-              <p class="title">Kampanj – vårkollektion</p>
-              <p class="muted">Paid social · Retail</p>
-            </div>
-          </article>
-
-          <article class="card" role="listitem">
-            <img class="thumb" src="DSC_whatever.jpeg" alt="Projekt 2" loading="lazy">
-            <div class="pad">
-              <p class="title">Lookbook / Editorial</p>
-              <p class="muted">Content · AD</p>
-            </div>
-          </article>
-
-          <article class="card" role="listitem">
-            <img class="thumb" src="DSC_Astrid.jpeg" alt="Projekt 3" loading="lazy">
-            <div class="pad">
-              <p class="title">Flagship Window</p>
-              <p class="muted">VM · Scenografi</p>
-            </div>
-          </article>
-
-          <article class="card" role="listitem">
-            <img class="thumb" src="Some.jpeg" alt="Projekt – SOME" loading="lazy">
-            <div class="pad">
-              <p class="title">Projekt – SOME</p>
-              <p class="muted">Social · Koncept</p>
-            </div>
-          </article>
-
-          <article class="card" role="listitem">
-            <img class="thumb" src="absolut.jpeg" alt="Projekt – Absolut" loading="lazy">
-            <div class="pad">
-              <p class="title">Projekt – Absolut</p>
-              <p class="muted">Kampanj · Art Direction</p>
-            </div>
-          </article>
-
-          <article class="card" role="listitem">
-            <img class="thumb" src="ouai.jpeg" alt="Projekt – OUAI" loading="lazy">
-            <div class="pad">
-              <p class="title">Projekt – OUAI</p>
-              <p class="muted">Retail · Content</p>
-            </div>
-          </article>
+      <section id="about" class="page">
+        <div class="content-wrap">
+          <h2 class="kicker">A B O U T &nbsp; M E</h2>
+          <div class="about-text">
+            <p>
+              I’m a curious and driven person who enjoys understanding things at a deeper level and turning ideas into work that creates real value. I’ve always been drawn to the balance between creativity and analysis, where testing, learning, and continuous improvement are part of the journey.
+            </p>
+            <p>
+              My experience includes SEO, paid social, CRO, UX/UI, CRM, and e-commerce, with a strong interest in how data, user behaviour, and creativity come together to create sustainable long-term growth. I thrive in collaborative, fast-paced environments and am motivated by continuous learning, responsibility, and finding better ways to move work forward.
+            </p>
+          </div>
         </div>
       </section>
 
-      <!-- WHAT’S POSSIBLE TOGETHER -->
-      <section id="possible" class="page possible-ring" aria-labelledby="possible-h">
-        <div class="ring">
-          <ul class="stack stack-top" role="list" aria-label="Kompetenser topp">
-            <li>SEO / SEM</li>
-            <li>Website Design &amp; Development</li>
-            <li>Content Writing</li>
-            <li>Social Media Management &amp; Ad Campaigns</li>
-          </ul>
-
-          <h2 id="possible-h" class="possible-big">
-            What’s<br>Possible<br>Together
-          </h2>
-
-          <ul class="stack stack-right" role="list" aria-label="Kompetenser höger">
-            <li>SEO / SEM</li>
-            <li>Website Design &amp; Development</li>
-            <li>Content Writing</li>
-            <li>Social Media Management &amp; Ad Campaigns</li>
-          </ul>
-
-          <ul class="stack stack-left" role="list" aria-label="Kompetenser vänster">
-            <li>SEO / SEM</li>
-            <li>Website Design &amp; Development</li>
-            <li>Content Writing</li>
-            <li>Social Media Management &amp; Ad Campaigns</li>
-          </ul>
-
-          <ul class="stack stack-bottom" role="list" aria-label="Kompetenser botten">
-            <li>SEO / SEM</li>
-            <li>Website Design &amp; Development</li>
-            <li>Content Writing</li>
-            <li>Social Media Management &amp; Ad Campaigns</li>
-          </ul>
+      <section id="projects" class="page">
+        <div class="content-wrap">
+          <h2 class="kicker">P R O J E C T S / A R C H I V E</h2>
+          <div class="projects">
+            <a href="akademibokhandeln.html" class="card-link"><article class="card"><img class="thumb" src="Akademibokhandlen.png" alt="Akademibokhandeln"><div class="pad"><p class="title">Akademibokhandeln</p><p class="muted">SEO · Content Marketing</p></div></article></a>
+            <a href="astrid.html" class="card-link"><article class="card"><img class="thumb" src="Astrid.png" alt="Astrid Textiles"><div class="pad"><p class="title">Astrid Textiles</p><p class="muted">B2B Branding</p></div></article></a>
+            <a href="common-clouds.html" class="card-link"><article class="card"><img class="thumb" src="Commonclouds.png" alt="Common Clouds"><div class="pad"><p class="title">Common Clouds</p><p class="muted">SEO · GEO · CRO</p></div></article></a>
+            <a href="drypops.html" class="card-link"><article class="card"><img class="thumb" src="Drypops.png" alt="Dry Pops"><div class="pad"><p class="title">Dry Pops</p><p class="muted">Social Ads · A/B Testing</p></div></article></a>
+            <a href="suie.html" class="card-link"><article class="card"><img class="thumb" src="SUIE.png" alt="SUIE"><div class="pad"><p class="title">SUIE</p><p class="muted">E-commerce Strategy</p></div></article></a>
+            <a href="under-your-skin.html" class="card-link"><article class="card"><img class="thumb" src="Underyourskin.png" alt="Under Your Skin"><div class="pad"><p class="title">Under Your Skin</p><p class="muted">CRO · Loyalty Strategy</p></div></article></a>
+          </div>
         </div>
-
-        <!-- Centrera ALLT i ringen, även vänster/höger-listor -->
-        <style>
-          #possible .ring{ justify-items:center; align-items:center; margin-inline:auto }
-          #possible .possible-big{ text-align:center; justify-self:center }
-          #possible .stack{ text-align:center; align-items:center; margin-inline:auto; width:100%; max-width:720px }
-          #possible .stack-left, #possible .stack-right{ text-align:center !important; align-items:center !important }
-        </style>
       </section>
 
-      <!-- BANNER -->
-      <section id="promo" class="page" aria-label="Banner"
-        style="width:100vw;margin-left:50%;transform:translateX(-50%);position:relative;">
-        <div class="frame">
-          <img src="you.png" alt="Banner" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="overlay" aria-label="Snabblänkar">
-            <ul class="cta-list">
-              <li><a href="mailto:tova.epersson@gmail.com" data-gtm="cta">Contact me</a></li>
-              <li><a href="Tova_Persson_CV.pdf" download="Tova_Persson_CV.pdf" data-gtm="cta">Resume</a></li>
-              <li><a href="https://www.linkedin.com/in/tovas" data-gtm="cta" rel="noopener">LinkedIn</a></li>
+      <section id="possible" class="page">
+        <div class="content-wrap">
+          <div class="ring">
+            <ul class="stack stack-top">
+              <li>End-to-end growth management</li>
+              <li>E-commerce strategy</li>
+              <li>Creative strategy & analysis</li>
+            </ul>
+            <h2 class="possible-big">What’s<br>Possible<br>Together</h2>
+            <ul class="stack stack-left">
+              <li>SEO & GEO</li>
+              <li>CRO</li>
+              <li>UX/UI</li>
+            </ul>
+            <ul class="stack stack-right">
+              <li>Retention & CRM</li>
+              <li>Email marketing</li>
+            </ul>
+            <ul class="stack stack-bottom">
+              <li>Performance marketing</li>
+              <li>Content strategy</li>
             </ul>
           </div>
         </div>
+      </section>
 
-        <!-- CTA precis under bannern (inne i #promo) -->
-        <div class="below-banner-cta" aria-label="Länk till Jespers sida">
-          <a
-            id="jespers-link"
-            class="bottom-link-btn"
-            href="https://tovapersson.github.io/examples/"
-            data-gtm="cta"
-          >Jespers länk</a>
+      <section id="promo" class="page">
+        <div class="frame">
+          <img src="you.png" alt="Contact">
+          <div class="overlay">
+            <ul class="cta-list">
+              <li>
+                  <a id="cv-main-btn-bottom" onclick="toggleCV('bottom')">Download my resume</a>
+                  <div id="cv-options-bottom" class="bottom-cv-options">
+                      <a href="CV SWE .pdf" download>Swedish</a>
+                      <a href="Resume - TovaPersson-ENG.pdf" download>English</a>
+                  </div>
+              </li>
+              <li><a href="mailto:tova.epersson@gmail.com">Contact me</a></li>
+              <li><a href="https://www.linkedin.com/in/tovas" target="_blank">LinkedIn</a></li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -371,178 +355,14 @@
   </div>
 
   <script>
-    function setTopbarHeight(){
-      const bar = document.querySelector('.top-location');
-      if(bar){ document.documentElement.style.setProperty('--topbar-h', bar.offsetHeight + 'px'); }
-    }
-    setTopbarHeight();
-    window.addEventListener('resize', setTopbarHeight);
     document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
 
-  <!-- Tracking: link clicks, project impressions/clicks, scroll depth -->
-  <script>
-    // ---- Link click tracking (nav, CTA, outbound, download, mailto) ----
-    document.addEventListener('click', function (e) {
-      const a = e.target.closest('a');
-      if (!a) return;
-
-      const href = a.getAttribute('href') || '';
-      const label = (a.textContent || '').trim();
-      const isMailto   = href.startsWith('mailto:');
-      const isDownload = a.hasAttribute('download') || /\.(pdf|docx?|xlsx?|pptx?|zip)$/i.test(href);
-      const isHttp     = /^https?:\/\//i.test(href);
-      const isOutbound = isHttp && a.host && a.host !== location.host;
-      const section =
-        a.dataset.gtm ||
-        (a.closest('.topmenu') ? 'nav' : (a.closest('.cta-list') ? 'cta' : null));
-
-      window.dataLayer.push({
-        event: 'link_click',
-        link: {
-          label: label || href,
-          url: href,
-          section: section,
-          outbound: !!isOutbound,
-          download: !!isDownload,
-          mailto: !!isMailto
-        }
-      });
-    }, { capture: true });
-
-    // ---- Project impressions (once per kort) + klick ----
-    (function trackProjectImpressions() {
-      const container = document.querySelector('#projects');
-      const cards = container ? container.querySelectorAll('.card') : [];
-      if (!('IntersectionObserver' in window) || !cards.length) return;
-
-      const seen = new WeakSet();
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !seen.has(entry.target)) {
-            seen.add(entry.target);
-            const title = entry.target.querySelector('.title')?.textContent?.trim() || 'Untitled';
-            window.dataLayer.push({
-              event: 'project_impression',
-              project: { title: title }
-            });
-          }
-        });
-      }, { threshold: 0.5 });
-
-      cards.forEach(c => obs.observe(c));
-
-      container.addEventListener('click', (e) => {
-        const card = e.target.closest('.card');
-        if (!card) return;
-        const title = card.querySelector('.title')?.textContent?.trim() || 'Untitled';
-        window.dataLayer.push({
-          event: 'project_click',
-          project: { title: title }
-        });
-      });
-    })();
-
-    // ---- Global scroll depth (25/50/75/100%) ----
-    (function trackScrollDepth() {
-      const marks = new Set();
-      const points = [25, 50, 75, 100];
-
-      function check() {
-        const doc = document.documentElement;
-        const max = doc.scrollHeight - doc.clientHeight;
-        if (max <= 0) return;
-        const pct = Math.round((doc.scrollTop / max) * 100);
-
-        points.forEach(p => {
-          if (pct >= p && !marks.has(p)) {
-            marks.add(p);
-            window.dataLayer.push({ event: 'scroll_depth', scroll: { percent: p } });
-          }
-        });
-
-        if (marks.size === points.length) window.removeEventListener('scroll', onScroll);
-      }
-
-      const onScroll = () => { requestAnimationFrame(check); };
-      window.addEventListener('scroll', onScroll, { passive: true });
-      check(); // initial
-    })();
-  </script>
-
-  <!-- NEW: Tid i sektion + scrolldjup per sektion -->
-  <script>
-    (function sectionMetrics(){
-      const sectionIds = ['about','projects','possible','promo'];
-      const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
-      if (!sections.length) return;
-
-      // ---- TID I SEKTION (≥50% i vy) ----
-      let active = null, start = 0;
-      const timeObserver = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          const id = e.target.id;
-          if (e.isIntersecting && e.intersectionRatio >= 0.5) {
-            if (active && active !== id) {
-              const spent = Math.round((performance.now() - start) / 1000);
-              window.dataLayer.push({ event: 'section_time', section: active, seconds: spent });
-            }
-            if (active !== id) { active = id; start = performance.now(); }
-          } else if (active === id && e.intersectionRatio < 0.5) {
-            const spent = Math.round((performance.now() - start) / 1000);
-            window.dataLayer.push({ event: 'section_time', section: id, seconds: spent });
-            active = null;
-          }
-        });
-      }, { threshold: [0, 0.5, 1] });
-      sections.forEach(s => timeObserver.observe(s));
-
-      window.addEventListener('beforeunload', () => {
-        if (active) {
-          const spent = Math.round((performance.now() - start) / 1000);
-          window.dataLayer.push({ event: 'section_time', section: active, seconds: spent });
-        }
-      });
-
-      // ---- SCROLLDJUP PER SEKTION (25/50/75/100%) ----
-      const points = [25, 50, 75, 100];
-      const marks = new Map(sections.map(s => [s.id, new Set()]));
-
-      function checkSectionDepth() {
-        const st = document.documentElement.scrollTop || document.body.scrollTop;
-        const vh = window.innerHeight || document.documentElement.clientHeight;
-
-        sections.forEach(sec => {
-          const rect = sec.getBoundingClientRect();
-          const secTop = st + rect.top;
-          const secH = sec.offsetHeight || rect.height;
-          const denom = Math.max(1, secH - vh);
-
-          const progress = Math.max(0, Math.min(1, (st - secTop + vh / 2) / denom));
-          const pct = Math.round(progress * 100);
-
-          const done = marks.get(sec.id);
-          points.forEach(p => {
-            if (pct >= p && !done.has(p)) {
-              done.add(p);
-              window.dataLayer.push({ event: 'section_scrolldepth', section: sec.id, percent: p });
-            }
-          });
-        });
-      }
-
-      let ticking = false;
-      function onScroll() {
-        if (!ticking) {
-          ticking = true;
-          requestAnimationFrame(() => { checkSectionDepth(); ticking = false; });
-        }
-      }
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', () => checkSectionDepth(), { passive: true });
-      checkSectionDepth();
-    })();
+    function toggleCV(position) {
+        const mainBtn = document.getElementById(`cv-main-btn-${position}`);
+        const options = document.getElementById(`cv-options-${position}`);
+        mainBtn.style.display = 'none';
+        options.style.display = 'flex';
+    }
   </script>
 </body>
 </html>

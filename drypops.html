@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DryPops — Tova Persson</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
+  
+  <style>
+    :root { --bg: #f7f7f7; --fg: #0a0a0a; --muted: #6b7280; --line: #e5e7eb; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font-family: 'Inter', sans-serif; line-height: 1.6; }
+    .container { max-width: 900px; margin: 0 auto; padding: 100px 24px; }
+    
+    /* Navigering */
+    .nav-mini { position: fixed; top: 0; left: 0; right: 0; background: rgba(247,247,247,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); padding: 15px 24px; display: flex; justify-content: space-between; z-index: 100; }
+    .nav-mini a { text-transform: uppercase; font-size: 11px; letter-spacing: 0.2em; text-decoration: none; color: var(--muted); font-weight: 600; }
+    .nav-mini a:hover { color: var(--fg); }
+
+    /* Header */
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 8vw, 72px); margin: 0 0 10px 0; }
+    .meta { color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-size: 13px; margin-bottom: 20px; }
+
+    /* SKILLS / BUTTONS */
+    .skills-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 50px; }
+    .skill-tag { 
+      padding: 8px 16px; 
+      background: #fff; 
+      border: 1px solid var(--line); 
+      border-radius: 50px; 
+      font-size: 12px; 
+      font-weight: 600; 
+      text-transform: uppercase; 
+      letter-spacing: 0.05em; 
+      color: var(--fg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    
+    /* Case Grid */
+    @media (min-width: 768px) {
+      .case-grid { 
+        display: grid; 
+        grid-template-columns: 250px 1fr; 
+        gap: 40px; 
+        margin-bottom: 60px;
+        border-top: 1px solid var(--line);
+        padding-top: 40px;
+      }
+    }
+    @media (max-width: 767px) {
+      .case-grid { margin-bottom: 40px; border-top: 1px solid var(--line); padding-top: 20px; }
+    }
+
+    .case-label { 
+      font-size: 12px; 
+      text-transform: uppercase; 
+      letter-spacing: 0.2em; 
+      color: var(--muted); 
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .case-content h3 { margin-top: 0; font-size: 20px; font-weight: 600; }
+    .case-content p { font-size: 17px; color: var(--fg); margin-bottom: 20px; }
+    .case-content ul { padding-left: 20px; margin-bottom: 20px; }
+    .case-content li { font-size: 17px; margin-bottom: 8px; }
+
+    /* Testimonial */
+    .testimonial { background: #fff; padding: 50px 40px; border-radius: 12px; border: 1px solid var(--line); margin-top: 80px; }
+    .testimonial-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(20px, 2.8vw, 24px); line-height: 1.5; color: var(--fg); margin-bottom: 24px; text-align: left; }
+    .testimonial-author { font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700; color: var(--muted); text-align: left; }
+
+    .project-image { width: 100%; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--line); }
+    footer { margin-top: 80px; padding-bottom: 50px; text-align: center; color: var(--muted); font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav-mini">
+    <a href="index.html">← Tillbaka</a>
+    <a href="index.html#promo">Kontakt</a>
+  </nav>
+
+  <main class="container">
+    <div class="meta">Performance Marketing</div>
+    <h1>DryPops</h1>
+
+    <div class="skills-container">
+      <div class="skill-tag">Meta ads</div>
+      <div class="skill-tag">A/B testing</div>
+      <div class="skill-tag">CRO</div>
+      <div class="skill-tag">Full-Funnel Campaign Strategy</div>
+    </div>
+    
+    <section class="case-grid">
+      <div class="case-label">Background</div>
+      <div class="case-content">
+        <p>DryPops was a newly launched brand aiming to drive traffic to its website and generate sign-ups ahead of launch. Our task was to develop original creative concepts and ad copy, and to conduct A/B testing across different target audiences.</p>
+        
+        <h3>Approach</h3>
+        <p>We created tailored messaging and visual concepts for two key audiences:</p>
+        <ul>
+          <li><strong>Young adults (18–29):</strong> Playful, colorful creatives focused on making tap water more fun.</li>
+          <li><strong>Parents (30–45):</strong> Value-driven messaging emphasizing everyday convenience and functional benefits.</li>
+        </ul>
+      </div>
+    </section>
+
+    <img src="Drypops.png" alt="DryPops Campaign" class="project-image">
+
+    <section class="case-grid">
+      <div class="case-label">Results</div>
+      <div class="case-content">
+        <p>The campaign generated measurable traffic and engagement, confirming the initial hypothesis of a strong product–audience fit among parents.</p>
+        <ul>
+          <li><strong>Total campaign:</strong> 223 link clicks, 0.92% CTR.</li>
+          <li><strong>Parents:</strong> Highest performance with 202 clicks and 0.97% CTR.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="case-grid">
+      <div class="case-label">Reflection</div>
+      <div class="case-content">
+        <p>The results highlighted the importance of data-driven A/B testing to validate assumptions. Future optimization should focus on deeper segmentation and funnel strategy to convert sign-ups to customers.</p>
+      </div>
+    </section>
+
+    <div class="testimonial">
+      <div class="testimonial-text">
+        "Incredibly well designed and very well executed. You’ve carefully considered every part of the DryPops launch, from target audiences and campaign phases to channel selection, priorities, and how the website should be structured to effectively manage and convert traffic."
+      </div>
+      <div class="testimonial-author">— Emma & Madeleine, Kursansvariga från SearchIntent</div>
+    </div>
+
+  </main>
+
+  <footer>
+    © Tova Persson
+  </footer>
+
+</body>
+</html>

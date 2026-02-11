@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Common Clouds — Tova Persson</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
+  
+  <style>
+    :root { --bg: #f7f7f7; --fg: #0a0a0a; --muted: #6b7280; --line: #e5e7eb; --accent: #1221a5; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font-family: 'Inter', sans-serif; line-height: 1.6; }
+    .container { max-width: 900px; margin: 0 auto; padding: 100px 24px; }
+    
+    /* Navigation */
+    .nav-mini { position: fixed; top: 0; left: 0; right: 0; background: rgba(247,247,247,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); padding: 15px 24px; display: flex; justify-content: space-between; z-index: 100; }
+    .nav-mini a { text-transform: uppercase; font-size: 11px; letter-spacing: 0.2em; text-decoration: none; color: var(--muted); font-weight: 600; }
+    .nav-mini a:hover { color: var(--fg); }
+
+    /* Header */
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 8vw, 72px); margin: 0 0 10px 0; }
+    .meta { color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-size: 13px; margin-bottom: 20px; }
+
+    /* SKILLS / BUTTONS */
+    .skills-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 50px; }
+    .skill-tag { 
+      padding: 8px 16px; 
+      background: #fff; 
+      border: 1px solid var(--line); 
+      border-radius: 50px; 
+      font-size: 12px; 
+      font-weight: 600; 
+      text-transform: uppercase; 
+      letter-spacing: 0.05em; 
+      color: var(--fg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    
+    /* Case Grid */
+    @media (min-width: 768px) {
+      .case-grid { 
+        display: grid; 
+        grid-template-columns: 250px 1fr; 
+        gap: 40px; 
+        margin-bottom: 60px;
+        border-top: 1px solid var(--line);
+        padding-top: 40px;
+      }
+    }
+    @media (max-width: 767px) {
+      .case-grid { margin-bottom: 40px; border-top: 1px solid var(--line); padding-top: 20px; }
+    }
+
+    .case-label { 
+      font-size: 12px; 
+      text-transform: uppercase; 
+      letter-spacing: 0.2em; 
+      color: var(--muted); 
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .case-content h3 { margin-top: 0; font-size: 20px; font-weight: 600; }
+    .case-content p { font-size: 17px; color: var(--fg); margin-bottom: 20px; }
+    .case-content ul { padding-left: 20px; margin-bottom: 20px; }
+    .case-content li { font-size: 17px; margin-bottom: 8px; }
+
+    .project-image { width: 100%; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--line); }
+    footer { margin-top: 80px; padding-bottom: 50px; text-align: center; color: var(--muted); font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav-mini">
+    <a href="index.html">← Back</a>
+    <a href="index.html#promo">Contact</a>
+  </nav>
+
+  <main class="container">
+    <div class="meta">SEO, GEO & CRO Project</div>
+    <h1>Common Clouds</h1>
+
+    <div class="skills-container">
+      <div class="skill-tag">SEO</div>
+      <div class="skill-tag">GEO</div>
+      <div class="skill-tag">CRO</div>
+      <div class="skill-tag">Full-funnel optimisation</div>
+    </div>
+    
+    <section class="case-grid">
+      <div class="case-label">Background</div>
+      <div class="case-content">
+        <p>During the year at Berghs, we worked hands-on with Common Clouds to strengthen their organic visibility, search positioning, geo/AI discoverability, and on-site conversion.</p>
+        <p>Initial analysis showed that most traffic came from branded or informational searches, while visibility in transactional intent and lower-funnel queries remained limited. User-behavior data also revealed friction in the purchase journey, indicating gaps in structure and guidance.</p>
+      </div>
+    </section>
+
+    <img src="Commonclouds.png" alt="Common Clouds Project" class="project-image">
+
+    <section class="case-grid">
+      <div class="case-label">Approach</div>
+      <div class="case-content">
+        <h3>SEO & Content</h3>
+        <ul>
+          <li>Strengthened informational content to improve topical authority.</li>
+          <li>Refined metadata and internal linking, connecting blog guides with product pages to unify education and conversion.</li>
+        </ul>
+
+        <h3>GEO & AI Visibility</h3>
+        <ul>
+          <li>Implemented structured data (FAQ, Article, Product) to help Google and AI systems interpret relevance.</li>
+          <li>Expanded expert-driven content to strengthen E-E-A-T signals.</li>
+        </ul>
+
+        <h3>CRO & UX</h3>
+        <ul>
+          <li>Reduced friction through mobile-first structure, clearer navigation, and stronger social proof.</li>
+          <li>Introduced micro-conversions like wishlists to capture intent from younger audiences.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="case-grid">
+      <div class="case-label">Results</div>
+      <div class="case-content">
+        <p>The project created a clearer full-funnel ecosystem where informational content builds discovery and trust, while product pages capture demand.</p>
+        <p>Together, these changes establish stronger long-term conditions for organic growth, AI visibility, and revenue performance rather than short-term traffic gains alone.</p>
+      </div>
+    </section>
+
+    <section class="case-grid">
+      <div class="case-label">Reflection</div>
+      <div class="case-content">
+        <p>This work demonstrates how SEO, GEO, and CRO must operate as one connected system. Visibility without usability limits revenue, while conversion optimisation without discoverability limits growth.</p>
+        <p>By aligning search intent and user experience, Common Clouds moves toward a scalable model where authority and sales reinforce each other.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    © Tova Persson
+  </footer>
+
+</body>
+</html>
