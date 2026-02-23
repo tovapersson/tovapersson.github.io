@@ -291,12 +291,12 @@
         <div class="content-wrap">
           <h2 class="kicker">P R O J E C T S / A R C H I V E</h2>
           <div class="projects">
-            <a href="akademibokhandeln.html" class="card-link"><article class="card"><img class="thumb" src="Akademibokhandlen.png" alt="Akademibokhandeln"><div class="pad"><p class="title">Akademibokhandeln</p><p class="muted">SEO · Content Marketing</p></div></article></a>
-            <a href="astrid.html" class="card-link"><article class="card"><img class="thumb" src="Astrid.png" alt="Astrid Textiles"><div class="pad"><p class="title">Astrid Textiles</p><p class="muted">B2B Branding</p></div></article></a>
-            <a href="common-clouds.html" class="card-link"><article class="card"><img class="thumb" src="Commonclouds.png" alt="Common Clouds"><div class="pad"><p class="title">Common Clouds</p><p class="muted">SEO · GEO · CRO</p></div></article></a>
-            <a href="drypops.html" class="card-link"><article class="card"><img class="thumb" src="Drypops.png" alt="Dry Pops"><div class="pad"><p class="title">Social Ads · A/B Testing</p></div></article></a>
-            <a href="suie.html" class="card-link"><article class="card"><img class="thumb" src="SUIE.png" alt="SUIE"><div class="pad"><p class="title">SUIE</p><p class="muted">E-commerce Strategy</p></div></article></a>
-            <a href="under-your-skin.html" class="card-link"><article class="card"><img class="thumb" src="Underyourskin.png" alt="Under Your Skin"><div class="pad"><p class="title">Under Your Skin</p><p class="muted">CRO · Loyalty Strategy</p></div></article></a>
+            <a href="akademibokhandeln.html" id="proj-akademibokhandeln" class="card-link"><article class="card"><img class="thumb" src="Akademibokhandlen.png" alt="Akademibokhandeln"><div class="pad"><p class="title">Akademibokhandeln</p><p class="muted">SEO · Content Marketing</p></div></article></a>
+            <a href="astrid.html" id="proj-astrid" class="card-link"><article class="card"><img class="thumb" src="Astrid.png" alt="Astrid Textiles"><div class="pad"><p class="title">Astrid Textiles</p><p class="muted">B2B Branding</p></div></article></a>
+            <a href="common-clouds.html" id="proj-common-clouds" class="card-link"><article class="card"><img class="thumb" src="Commonclouds.png" alt="Common Clouds"><div class="pad"><p class="title">Common Clouds</p><p class="muted">SEO · GEO · CRO</p></div></article></a>
+            <a href="drypops.html" id="proj-drypops" class="card-link"><article class="card"><img class="thumb" src="Drypops.png" alt="Dry Pops"><div class="pad"><p class="title">Social Ads · A/B Testing</p></div></article></a>
+            <a href="suie.html" id="proj-suie" class="card-link"><article class="card"><img class="thumb" src="SUIE.png" alt="SUIE"><div class="pad"><p class="title">SUIE</p><p class="muted">E-commerce Strategy</p></div></article></a>
+            <a href="under-your-skin.html" id="proj-underyourskin" class="card-link"><article class="card"><img class="thumb" src="Underyourskin.png" alt="Under Your Skin"><div class="pad"><p class="title">Under Your Skin</p><p class="muted">CRO · Loyalty Strategy</p></div></article></a>
           </div>
         </div>
       </section>
@@ -378,6 +378,38 @@
             'file_type': 'pdf'
         });
     }
+
+    // --- DIN NYA DYNAMISKA PROJEKTSPÅRNING ---
+    (function trackProjectClicks() {
+        // Här definierar vi variablerna för de 6 projekten
+        const projects = [
+            { id: 'proj-akademibokhandeln', name: 'Akademibokhandeln', category: 'SEO' },
+            { id: 'proj-astrid', name: 'Astrid Textiles', category: 'B2B' },
+            { id: 'proj-common-clouds', name: 'Common Clouds', category: 'SEO' },
+            { id: 'proj-drypops', name: 'Dry Pops', category: 'Social Ads' },
+            { id: 'proj-suie', name: 'SUIE', category: 'E-commerce' },
+            { id: 'proj-underyourskin', name: 'Under Your Skin', category: 'CRO' }
+        ];
+
+        projects.forEach(project => {
+            const element = document.getElementById(project.id);
+            
+            // IF-logik: Vi kör bara koden om elementet med ID:t faktiskt finns på sidan
+            if (element) {
+                element.addEventListener('click', function() {
+                    window.dataLayer.push({
+                        'event': 'project_click',
+                        'project_info': {
+                            'title': project.name,
+                            'category': project.category,
+                            'id': project.id
+                        },
+                        'timestamp': new Date().toISOString()
+                    });
+                });
+            }
+        });
+    })();
   </script>
 </body>
 </html>

@@ -1,6 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    (function(){
+      var env = /localhost|127\.0\.0\.1|staging/i.test(location.host) ? 'dev' : 'prod';
+      window.dataLayer.push({
+        event: 'page_view',
+        page: {
+          url: location.href,
+          path: location.pathname,
+          title: document.title,
+          language: document.documentElement.lang
+        },
+        site: { name: 'Tova Persson Portfolio', env: env }
+      });
+    })();
+  </script>
+
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KBG4JPKN');</script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Under Your Skin — Tova Persson</title>
@@ -96,9 +119,10 @@
   </style>
 </head>
 <body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBG4JPKN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <nav class="nav-mini">
-    <a href="index.html">← Back</a>
+    <a href="index.html" id="back-to-home">← Back</a>
     <a href="index.html#promo">Contact</a>
   </nav>
 
@@ -169,6 +193,19 @@
   <footer>
     © Tova Persson
   </footer>
+
+  <script>
+    const backBtn = document.getElementById('back-to-home');
+    if (backBtn) {
+        backBtn.addEventListener('click', function() {
+            window.dataLayer.push({
+                'event': 'navigation_click',
+                'action': 'back_to_home',
+                'from_project': 'under-your-skin'
+            });
+        });
+    }
+  </script>
 
 </body>
 </html>
