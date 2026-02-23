@@ -238,10 +238,10 @@
   <div class="top-location">
     <div class="topbar">
       <nav class="topmenu">
-        <a href="#about">About me</a>
-        <a href="#projects">Projects</a>
-        <a href="#possible">What I Do</a>
-        <a href="#promo">Contact</a>
+        <a href="#about" id="nav-about">About me</a>
+        <a href="#projects" id="nav-projects">Projects</a>
+        <a href="#possible" id="nav-possible">What I Do</a>
+        <a href="#promo" id="nav-contact">Contact</a>
       </nav>
     </div>
   </div>
@@ -355,14 +355,12 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Funktion för att visa CV-alternativ och skicka tracking-data
     function toggleCV(position) {
         const mainBtn = document.getElementById(`cv-main-btn-${position}`);
         const options = document.getElementById(`cv-options-${position}`);
         mainBtn.style.display = 'none';
         options.style.display = 'flex';
 
-        // SKICKA EVENT TILL DATA LAYER
         window.dataLayer.push({
             'event': 'lead_magnet_initiate',
             'location': position,
@@ -370,7 +368,6 @@
         });
     }
 
-    // Funktion för att tracka själva filnedladdningen
     function trackDownload(lang) {
         window.dataLayer.push({
             'event': 'lead_magnet_download',
@@ -379,9 +376,7 @@
         });
     }
 
-    // --- DIN NYA DYNAMISKA PROJEKTSPÅRNING ---
     (function trackProjectClicks() {
-        // Här definierar vi variablerna för de 6 projekten
         const projects = [
             { id: 'proj-akademibokhandeln', name: 'Akademibokhandeln', category: 'SEO' },
             { id: 'proj-astrid', name: 'Astrid Textiles', category: 'B2B' },
@@ -393,8 +388,6 @@
 
         projects.forEach(project => {
             const element = document.getElementById(project.id);
-            
-            // IF-logik: Vi kör bara koden om elementet med ID:t faktiskt finns på sidan
             if (element) {
                 element.addEventListener('click', function() {
                     window.dataLayer.push({
@@ -405,6 +398,32 @@
                             'id': project.id
                         },
                         'timestamp': new Date().toISOString()
+                    });
+                });
+            }
+        });
+    })();
+
+    // --- NYTT SKRIPT FÖR TOPP-NAVIGERING ---
+    (function trackTopNavClicks() {
+        const navButtons = [
+            { id: 'nav-about', label: 'About Me' },
+            { id: 'nav-projects', label: 'Projects' },
+            { id: 'nav-possible', label: 'What I Do' },
+            { id: 'nav-contact', label: 'Contact' }
+        ];
+
+        navButtons.forEach(button => {
+            const element = document.getElementById(button.id);
+            if (element) {
+                element.addEventListener('click', function() {
+                    window.dataLayer.push({
+                        'event': 'top_navigation_click',
+                        'nav_info': {
+                            'link_text': button.label,
+                            'link_id': button.id,
+                            'nav_location': 'header'
+                        }
                     });
                 });
             }
