@@ -23,7 +23,6 @@
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-KBG4JPKN');</script>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tova Persson</title>
@@ -236,7 +235,6 @@
 </head>
 <body>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBG4JPKN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-
   <div class="top-location">
     <div class="topbar">
       <nav class="topmenu">
@@ -259,8 +257,8 @@
             <div id="cv-container-top">
                 <div id="cv-main-btn-top" class="btn" onclick="toggleCV('top')">Download my resume</div>
                 <div id="cv-options-top" class="cv-options">
-                    <a href="CV SWE .pdf" class="btn btn-sm" download>Swedish</a>
-                    <a href="Resume - TovaPersson-ENG.pdf" class="btn btn-sm" download>English</a>
+                    <a href="CV SWE .pdf" class="btn btn-sm" download onclick="trackDownload('swedish')">Swedish</a>
+                    <a href="Resume - TovaPersson-ENG.pdf" class="btn btn-sm" download onclick="trackDownload('english')">English</a>
                 </div>
             </div>
             
@@ -270,7 +268,7 @@
               <span class="hero-location">Based in Stockholm, Sweden</span>
             </div>
 
-            <a href="https://www.linkedin.com/in/tovas" target="_blank" class="btn">Linkedin</a>
+            <a href="https://www.linkedin.com/in/tovas" target="_blank" class="btn" onclick="window.dataLayer.push({'event': 'social_click', 'platform': 'linkedin'})">Linkedin</a>
           </div>
         </div>
       </section>
@@ -296,7 +294,7 @@
             <a href="akademibokhandeln.html" class="card-link"><article class="card"><img class="thumb" src="Akademibokhandlen.png" alt="Akademibokhandeln"><div class="pad"><p class="title">Akademibokhandeln</p><p class="muted">SEO · Content Marketing</p></div></article></a>
             <a href="astrid.html" class="card-link"><article class="card"><img class="thumb" src="Astrid.png" alt="Astrid Textiles"><div class="pad"><p class="title">Astrid Textiles</p><p class="muted">B2B Branding</p></div></article></a>
             <a href="common-clouds.html" class="card-link"><article class="card"><img class="thumb" src="Commonclouds.png" alt="Common Clouds"><div class="pad"><p class="title">Common Clouds</p><p class="muted">SEO · GEO · CRO</p></div></article></a>
-            <a href="drypops.html" class="card-link"><article class="card"><img class="thumb" src="Drypops.png" alt="Dry Pops"><div class="pad"><p class="title">Dry Pops</p><p class="muted">Social Ads · A/B Testing</p></div></article></a>
+            <a href="drypops.html" class="card-link"><article class="card"><img class="thumb" src="Drypops.png" alt="Dry Pops"><div class="pad"><p class="title">Social Ads · A/B Testing</p></div></article></a>
             <a href="suie.html" class="card-link"><article class="card"><img class="thumb" src="SUIE.png" alt="SUIE"><div class="pad"><p class="title">SUIE</p><p class="muted">E-commerce Strategy</p></div></article></a>
             <a href="under-your-skin.html" class="card-link"><article class="card"><img class="thumb" src="Underyourskin.png" alt="Under Your Skin"><div class="pad"><p class="title">Under Your Skin</p><p class="muted">CRO · Loyalty Strategy</p></div></article></a>
           </div>
@@ -337,12 +335,12 @@
               <li>
                   <a id="cv-main-btn-bottom" onclick="toggleCV('bottom')">Download my resume</a>
                   <div id="cv-options-bottom" class="bottom-cv-options">
-                      <a href="CV SWE .pdf" download>Swedish</a>
-                      <a href="Resume - TovaPersson-ENG.pdf" download>English</a>
+                      <a href="CV SWE .pdf" download onclick="trackDownload('swedish_bottom')">Swedish</a>
+                      <a href="Resume - TovaPersson-ENG.pdf" download onclick="trackDownload('english_bottom')">English</a>
                   </div>
               </li>
-              <li><a href="mailto:tova.epersson@gmail.com">Contact me</a></li>
-              <li><a href="https://www.linkedin.com/in/tovas" target="_blank">LinkedIn</a></li>
+              <li><a href="mailto:tova.epersson@gmail.com" onclick="window.dataLayer.push({'event': 'contact_click', 'type': 'email'})">Contact me</a></li>
+              <li><a href="https://www.linkedin.com/in/tovas" target="_blank" onclick="window.dataLayer.push({'event': 'social_click', 'platform': 'linkedin_bottom'})">LinkedIn</a></li>
             </ul>
           </div>
         </div>
@@ -357,11 +355,28 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // Funktion för att visa CV-alternativ och skicka tracking-data
     function toggleCV(position) {
         const mainBtn = document.getElementById(`cv-main-btn-${position}`);
         const options = document.getElementById(`cv-options-${position}`);
         mainBtn.style.display = 'none';
         options.style.display = 'flex';
+
+        // SKICKA EVENT TILL DATA LAYER
+        window.dataLayer.push({
+            'event': 'lead_magnet_initiate',
+            'location': position,
+            'action': 'clicked_main_download_button'
+        });
+    }
+
+    // Funktion för att tracka själva filnedladdningen
+    function trackDownload(lang) {
+        window.dataLayer.push({
+            'event': 'lead_magnet_download',
+            'language': lang,
+            'file_type': 'pdf'
+        });
     }
   </script>
 </body>
