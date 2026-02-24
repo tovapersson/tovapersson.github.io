@@ -32,21 +32,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600;1,700&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --bg:#f7f7f7; --fg:#0a0a0a; --muted:#6b7280; --line:#e5e7eb;
       --card:#ffffff; --accent:#0a0a0a; --radius:14px;
-      --red-accent: #e63946;
+      --red-accent: #8b1d1d;
     }
     @media (prefers-color-scheme: dark){
       :root{ --bg:#0b0b0b; --fg:#f5f5f5; --muted:#a3a3a3; --line:#1f2937; --card:#101010; }
     }
 
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{ margin:0; background:var(--bg); color:var(--fg); font-family: Inter, sans-serif; line-height:1.6 }
+    html{scroll-behavior:smooth; scroll-snap-type: y mandatory;}
+    body{ margin:0; background:var(--bg); color:var(--fg); font-family: Inter, sans-serif; line-height:1.6; overflow-x: hidden; }
     img{max-width:100%;display:block}
     a{color:inherit;text-decoration:none}
     
@@ -137,7 +137,6 @@
       border-color: var(--fg);
     }
 
-    /* CV Animation & Options */
     .cv-options {
       display: none; 
       gap: 10px;
@@ -183,7 +182,6 @@
     .muted { color: var(--muted); font-size: 11px; margin-top: 4px; }
 
     /* ===== SECTIONS & SNAP ===== */
-    html { scroll-snap-type: y mandatory; }
     .page { min-height: 100svh; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center; padding-block: 40px; }
 
     /* ===== WHAT I DO (RING) ===== */
@@ -195,9 +193,56 @@
     .stack-left { grid-area: left; text-align: center; align-items: center; }
     .stack-right { grid-area: right; text-align: center; align-items: center; }
 
-    @media (max-width: 900px) {
-      .ring { grid-template-columns: 1fr; grid-template-areas: "top" "title" "left" "right" "bottom"; gap: 30px; }
-      .stack-left, .stack-right { text-align: center; align-items: center; }
+    /* ===== CENTRERAD BANNER-SEKTION (MATCHANDE BAKGRUND) ===== */
+    .banner-section {
+      width: 100vw;
+      position: relative;
+      background: var(--bg); /* Matchar nu din hemsidas bakgrund */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .banner-container {
+      position: relative;
+      width: 100%;
+    }
+    .banner-image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .banner-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 90%;
+      max-width: 1100px;
+    }
+    .banner-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 4.5vw, 64px);
+      color: #8b1d1d;
+      margin: 0;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+    .banner-title em {
+      display: block;
+      font-weight: 700;
+      font-style: italic;
+      font-size: 1.15em;
+      margin: 10px 0;
+    }
+    .banner-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(14px, 1.6vw, 22px);
+      color: #8b1d1d;
+      margin-top: 15px;
+      opacity: 0.9;
     }
 
     /* ===== CONTACT SECTION ===== */
@@ -241,6 +286,7 @@
         <a href="#about" id="nav-about">About me</a>
         <a href="#projects" id="nav-projects">Projects</a>
         <a href="#possible" id="nav-possible">What I Do</a>
+        <a href="#social-media" id="nav-insight">Insight</a>
         <a href="#promo" id="nav-contact">Contact</a>
       </nav>
     </div>
@@ -289,7 +335,7 @@
 
       <section id="projects" class="page">
         <div class="content-wrap">
-          <h2 class="kicker">P R O J E C T S / A R C H I V E</h2>
+          <h2 class="kicker">P R O J E C T S</h2>
           <div class="projects">
             <a href="akademibokhandeln.html" id="proj-akademibokhandeln" class="card-link"><article class="card"><img class="thumb" src="Akademibokhandlen.png" alt="Akademibokhandeln"><div class="pad"><p class="title">Akademibokhandeln</p><p class="muted">SEO · Content Marketing</p></div></article></a>
             <a href="astrid.html" id="proj-astrid" class="card-link"><article class="card"><img class="thumb" src="Astrid.png" alt="Astrid Textiles"><div class="pad"><p class="title">Astrid Textiles</p><p class="muted">B2B Branding</p></div></article></a>
@@ -323,6 +369,23 @@
               <li>Performance marketing</li>
               <li>Content strategy</li>
             </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="social-media" class="page banner-section">
+        <div class="banner-container">
+          <img src="Socialmedia.png" alt="Social Media Insights" class="banner-image">
+          <div class="banner-content">
+            <h2 class="banner-title">
+              Are you still scrolling
+              <em>Social Media</em>
+              to stay relevant?
+            </h2>
+            <p class="banner-subtitle">There's a faster way to find what's viral.</p>
+            <a href="https://tovapersson.github.io/leadmagnet/" target="_blank" class="btn" style="margin-top: 20px;">
+              Download the whitepaper
+            </a>
           </div>
         </div>
       </section>
@@ -398,32 +461,6 @@
                             'id': project.id
                         },
                         'timestamp': new Date().toISOString()
-                    });
-                });
-            }
-        });
-    })();
-
-    // --- NYTT SKRIPT FÖR TOPP-NAVIGERING ---
-    (function trackTopNavClicks() {
-        const navButtons = [
-            { id: 'nav-about', label: 'About Me' },
-            { id: 'nav-projects', label: 'Projects' },
-            { id: 'nav-possible', label: 'What I Do' },
-            { id: 'nav-contact', label: 'Contact' }
-        ];
-
-        navButtons.forEach(button => {
-            const element = document.getElementById(button.id);
-            if (element) {
-                element.addEventListener('click', function() {
-                    window.dataLayer.push({
-                        'event': 'top_navigation_click',
-                        'nav_info': {
-                            'link_text': button.label,
-                            'link_id': button.id,
-                            'nav_location': 'header'
-                        }
                     });
                 });
             }
