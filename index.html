@@ -90,7 +90,6 @@
     .popup-content { transition: opacity 0.3s; }
     #geo-popup.minimized .popup-content { opacity: 0; pointer-events: none; display: none; }
 
-    /* Ändrad font-size för att SEO ska få plats i ikonen */
     .minimized-icon {
       display: none;
       font-size: 14px; 
@@ -99,6 +98,46 @@
       letter-spacing: 0.05em;
     }
     #geo-popup.minimized .minimized-icon { display: block; }
+
+    /* ===== REDDIT POPUP ===== */
+    #reddit-popup {
+      position: fixed;
+      bottom: 120px;
+      right: 30px;
+      width: 320px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      z-index: 10000;
+      padding: 24px;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform: translateY(150%) scale(0.8);
+      opacity: 0;
+    }
+
+    #reddit-popup.show {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    #reddit-popup.minimized {
+      width: 60px;
+      height: 60px;
+      padding: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      right: 30px;
+      bottom: 100px;
+    }
+
+    #reddit-popup.minimized .popup-content { opacity: 0; pointer-events: none; display: none; }
+    #reddit-popup .minimized-icon { display: none; font-size: 11px; font-weight: 800; color: var(--red-accent); letter-spacing: 0.03em; }
+    #reddit-popup.minimized .minimized-icon { display: block; }
 
     .close-trigger {
       position: absolute;
@@ -192,7 +231,6 @@
       opacity: 0.8;
     }
 
-    /* Knappar */
     .btn {
       padding: 10px 24px;
       border: 1px solid var(--line);
@@ -233,6 +271,7 @@
       .hero-container .btn, .cv-options { order: 2; width: 220px; justify-content: center; }
       .hero-credentials { order: 1; }
       #geo-popup { right: 20px; bottom: 20px; width: calc(100% - 40px); }
+      #reddit-popup { right: 20px; bottom: 120px; width: calc(100% - 40px); }
     }
 
     /* ===== ABOUT SECTION ===== */
@@ -270,7 +309,7 @@
     .stack-left { grid-area: left; text-align: center; align-items: center; }
     .stack-right { grid-area: right; text-align: center; align-items: center; }
 
-    /* ===== CENTRERAD BANNER-SEKTION (MATCHANDE BAKGRUND) ===== */
+    /* ===== BANNER SECTION ===== */
     .banner-section {
       width: 100vw;
       position: relative;
@@ -357,10 +396,24 @@
 </head>
 <body>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBG4JPKN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  
+
+  <!-- Reddit Popup -->
+  <div id="reddit-popup" onclick="handleRedditPopupClick(event)">
+    <button class="close-trigger" onclick="minimizeRedditPopup(event)">×</button>
+    <div class="minimized-icon">🔥</div>
+    <div class="popup-content">
+      <div class="popup-kicker">Built by me</div>
+      <h3 class="popup-title">Viral Topic Finder</h3>
+      <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Discover what's trending on Reddit right now.</p>
+      <a href="https://tovapersson.github.io/reddit-finder/" class="popup-btn">Try it out</a>
+    </div>
+  </div>
+
+  <!-- SEO Popup -->
   <div id="geo-popup" onclick="handlePopupClick(event)">
     <button class="close-trigger" onclick="minimizePopup(event)">×</button>
-    <div class="minimized-icon">SEO</div> <div class="popup-content">
+    <div class="minimized-icon">SEO</div>
+    <div class="popup-content">
       <div class="popup-kicker">Built by me</div>
       <h3 class="popup-title">SEO & GEO Deep Analyzer</h3>
       <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Get insights into how AI-engines perceive your brand.</p>
@@ -412,7 +465,7 @@
           <h2 class="kicker">A B O U T &nbsp; M E</h2>
           <div class="about-text">
             <p>
-              I’m a curious and driven person who enjoys understanding things at a deeper level and turning ideas into work that creates real value. I’ve always been drawn to the balance between creativity and analysis, where testing, learning, and continuous improvement are part of the journey.
+              I'm a curious and driven person who enjoys understanding things at a deeper level and turning ideas into work that creates real value. I've always been drawn to the balance between creativity and analysis, where testing, learning, and continuous improvement are part of the journey.
             </p>
             <p>
               My experience includes SEO, paid social, CRO, UX/UI, CRM, and e-commerce, with a strong interest in how data, user behaviour, and creativity come together to create sustainable long-term growth. I thrive in collaborative, fast-paced environments and am motivated by continuous learning, responsibility, and finding better ways to move work forward.
@@ -443,7 +496,7 @@
               <li>E-commerce strategy</li>
               <li>Creative strategy & analysis</li>
             </ul>
-            <h2 class="possible-big">What’s<br>Possible<br>Together</h2>
+            <h2 class="possible-big">What's<br>Possible<br>Together</h2>
             <ul class="stack stack-left">
               <li>SEO & GEO</li>
               <li>CRO</li>
@@ -508,6 +561,11 @@
 
     // ===== POPUP LOGIC =====
     window.onload = function() {
+      // Reddit popup visas efter 1.5s
+      setTimeout(() => {
+        document.getElementById('reddit-popup').classList.add('show');
+      }, 1500);
+      // SEO popup visas efter 2.5s
       setTimeout(() => {
         document.getElementById('geo-popup').classList.add('show');
       }, 2500);
@@ -520,6 +578,18 @@
 
     function handlePopupClick(e) {
       const popup = document.getElementById('geo-popup');
+      if (popup.classList.contains('minimized')) {
+        popup.classList.remove('minimized');
+      }
+    }
+
+    function minimizeRedditPopup(e) {
+      e.stopPropagation();
+      document.getElementById('reddit-popup').classList.add('minimized');
+    }
+
+    function handleRedditPopupClick(e) {
+      const popup = document.getElementById('reddit-popup');
       if (popup.classList.contains('minimized')) {
         popup.classList.remove('minimized');
       }
