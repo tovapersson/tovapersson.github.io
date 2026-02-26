@@ -309,56 +309,95 @@
     .stack-left { grid-area: left; text-align: center; align-items: center; }
     .stack-right { grid-area: right; text-align: center; align-items: center; }
 
-    /* ===== BANNER SECTION ===== */
-    .banner-section {
-      width: 100vw;
+    /* ===== INSIGHT SECTION ===== */
+    #social-media { padding: 0; }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      min-height: 100svh;
+    }
+
+    .insight-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(40px, 8vw, 100px) clamp(32px, 6vw, 96px);
+    }
+
+    .insight-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.2vw, 48px);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--fg);
+      margin: 0 0 20px 0;
+    }
+
+    .insight-heading em {
+      font-style: italic;
+      color: var(--fg);
+    }
+
+    .insight-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 360px;
+    }
+
+    .insight-cta {
+      display: inline-block;
+      padding: 13px 28px;
+      border: 1px solid var(--fg);
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--fg);
+      background: transparent;
+      transition: background 0.25s, color 0.25s;
+      align-self: flex-start;
+      cursor: pointer;
+    }
+
+    .insight-cta:hover {
+      background: var(--fg);
+      color: var(--bg);
+    }
+
+    .insight-right {
       position: relative;
       background: var(--bg);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0;
+      padding: clamp(40px, 8vw, 100px) clamp(32px, 6vw, 96px);
     }
-    .banner-container {
-      position: relative;
+
+    .insight-right img {
       width: 100%;
-    }
-    .banner-image {
-      width: 100%;
-      height: auto;
+      height: 280px;
+      object-fit: cover;
       display: block;
+      border-radius: 12px;
+      transition: opacity 0.4s ease;
     }
-    .banner-content {
+
+    .img-loader {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      width: 90%;
-      max-width: 1100px;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
-    .banner-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(24px, 4.5vw, 64px);
-      color: #8b1d1d;
-      margin: 0;
-      font-weight: 400;
-      line-height: 1.2;
-    }
-    .banner-title em {
-      display: block;
-      font-weight: 700;
-      font-style: italic;
-      font-size: 1.15em;
-      margin: 10px 0;
-    }
-    .banner-subtitle {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: clamp(14px, 1.6vw, 22px);
-      color: #8b1d1d;
-      margin-top: 15px;
-      opacity: 0.9;
+
+    @media (max-width: 768px) {
+      .insight-grid { grid-template-columns: 1fr; }
     }
 
     /* ===== CONTACT SECTION ===== */
@@ -514,20 +553,29 @@
         </div>
       </section>
 
-      <section id="social-media" class="page banner-section">
-        <div class="banner-container">
-          <img src="Socialmedia.png" alt="Social Media Insights" class="banner-image">
-          <div class="banner-content">
-            <h2 class="banner-title">
-              Are you still scrolling
-              <em>Social Media</em>
+      <!-- ===== NY INSIGHT-SEKTION (ersätter gamla banner-sektionen) ===== -->
+      <section id="social-media" class="page">
+        <div class="insight-grid">
+
+          <div class="insight-left">
+            <h2 class="insight-heading">
+              Are you still scrolling<br>
+              <em>Social Media</em><br>
               to stay relevant?
             </h2>
-            <p class="banner-subtitle">There's a faster way to find what's viral.</p>
-            <a href="https://tovapersson.github.io/leadmagnet/" target="_blank" class="btn" style="margin-top: 20px;">
+            <p class="insight-sub">
+              There's a faster way to find what's viral. I put together a whitepaper on how to spot trends before they peak.
+            </p>
+            <a class="insight-cta" href="https://tovapersson.github.io/leadmagnet/" target="_blank">
               Download the whitepaper
             </a>
           </div>
+
+          <div class="insight-right">
+            <div class="img-loader" id="imgLoader">Loading…</div>
+            <img id="unsplashImg" src="" alt="Swedish summer" style="opacity:0;" />
+          </div>
+
         </div>
       </section>
 
@@ -559,7 +607,7 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ===== POPUP LOGIC =====
+    // ===== POPUP LOGIC ===== (oförändrad från original)
     window.onload = function() {
       // Reddit popup visas efter 1.5s
       setTimeout(() => {
@@ -647,6 +695,41 @@
             }
         });
     })();
+
+    // ===== UNSPLASH AUTO-REFRESH =====
+    const insightQueries = [
+      'swedish summer nature',
+      'sweden summer lake',
+      'scandinavian summer aesthetic',
+      'swedish archipelago summer',
+      'nordic summer meadow',
+      'sweden midsummer',
+      'scandinavian cottage summer',
+      'swedish summer flowers',
+    ];
+
+    let imgCounter = 0;
+
+    function loadInsightImage() {
+      const img = document.getElementById('unsplashImg');
+      const query = insightQueries[imgCounter % insightQueries.length];
+      imgCounter++;
+      const seed = Math.floor(Math.random() * 9999);
+      const url = `https://source.unsplash.com/900x600/?${encodeURIComponent(query)}&sig=${seed}`;
+      const tmp = new Image();
+      tmp.onload = () => {
+        img.style.opacity = 0;
+        setTimeout(() => {
+          img.src = tmp.src;
+          img.style.opacity = 1;
+          document.getElementById('imgLoader').style.display = 'none';
+        }, 200);
+      };
+      tmp.src = url;
+    }
+
+    loadInsightImage();
+    setInterval(loadInsightImage, 3000);
   </script>
 </body>
 </html>
