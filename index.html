@@ -53,31 +53,42 @@
     .wrap{ display:block; min-height:100svh }
     .content-wrap { padding: 0 clamp(16px, 6vw, 96px); max-width: 1400px; margin: 0 auto; width: 100%; }
 
-    /* ===== POPUP SYSTEM ===== */
-    #geo-popup {
+    /* ===== POPUP STACK CONTAINER ===== */
+    #popup-stack {
       position: fixed;
       bottom: 30px;
       right: 30px;
-      width: 320px;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
       z-index: 10000;
-      padding: 24px;
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      transform: translateY(150%) scale(0.8);
-      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-end;
     }
 
-    #geo-popup.show {
+    /* ===== POPUP SHARED STYLES ===== */
+    .popup-card {
+      width: 300px;
+      background: #0a0a0a;
+      border: 1px solid #222;
+      border-radius: 16px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      padding: 20px 24px;
+      position: relative;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform: translateY(40px) scale(0.95);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .popup-card.show {
       transform: translateY(0) scale(1);
       opacity: 1;
+      pointer-events: all;
     }
 
-    #geo-popup.minimized {
-      width: 60px;
-      height: 60px;
+    .popup-card.minimized {
+      width: 48px;
+      height: 48px;
       padding: 0;
       border-radius: 50%;
       cursor: pointer;
@@ -87,86 +98,46 @@
       overflow: hidden;
     }
 
-    .popup-content { transition: opacity 0.3s; }
-    #geo-popup.minimized .popup-content { opacity: 0; pointer-events: none; display: none; }
-
-    .minimized-icon {
-      display: none;
-      font-size: 14px; 
-      font-weight: 800;
-      color: var(--red-accent);
-      letter-spacing: 0.05em;
-    }
-    #geo-popup.minimized .minimized-icon { display: block; }
-
-    /* ===== REDDIT POPUP ===== */
-    #reddit-popup {
-      position: fixed;
-      bottom: 120px;
-      right: 30px;
-      width: 320px;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-      z-index: 10000;
-      padding: 24px;
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      transform: translateY(150%) scale(0.8);
-      opacity: 0;
-    }
-
-    #reddit-popup.show {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
-
-    #reddit-popup.minimized {
-      width: 60px;
-      height: 60px;
-      padding: 0;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      right: 30px;
-      bottom: 100px;
-    }
-
-    #reddit-popup.minimized .popup-content { opacity: 0; pointer-events: none; display: none; }
-    #reddit-popup .minimized-icon { display: none; font-size: 11px; font-weight: 800; color: var(--red-accent); letter-spacing: 0.03em; }
-    #reddit-popup.minimized .minimized-icon { display: block; }
+    .popup-card.minimized .popup-content { display: none; }
+    .popup-card .minimized-icon { display: none; font-size: 13px; font-weight: 800; color: #fff; letter-spacing: 0.03em; }
+    .popup-card.minimized .minimized-icon { display: block; }
 
     .close-trigger {
       position: absolute;
-      top: 12px;
+      top: 10px;
       right: 12px;
-      font-size: 18px;
+      font-size: 16px;
       cursor: pointer;
-      color: var(--muted);
+      color: #888;
       background: none;
       border: none;
       line-height: 1;
     }
+    .close-trigger:hover { color: #fff; }
 
-    .popup-kicker { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red-accent); font-weight: 700; margin-bottom: 8px; }
-    .popup-title { font-family: 'Playfair Display', serif; font-size: 20px; margin: 0 0 12px 0; line-height: 1.2; color: var(--fg); }
+    .popup-kicker { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #888; font-weight: 700; margin-bottom: 6px; }
+    .popup-title { font-family: 'Playfair Display', serif; font-size: 18px; margin: 0 0 8px 0; line-height: 1.2; color: #fff; }
+    .popup-desc { font-size: 12px; color: #aaa; margin-bottom: 0; line-height: 1.5; }
     .popup-btn { 
       display: block; 
-      background: var(--fg); 
-      color: var(--bg); 
+      background: #fff; 
+      color: #0a0a0a; 
       text-align: center; 
-      padding: 12px; 
+      padding: 10px; 
       border-radius: 30px; 
-      font-size: 12px; 
+      font-size: 11px; 
       font-weight: 700; 
-      text-transform: uppercase; 
-      margin-top: 15px; 
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 14px; 
       transition: opacity 0.3s;
     }
     .popup-btn:hover { opacity: 0.8; }
+
+    @media (max-width: 768px) {
+      #popup-stack { right: 16px; bottom: 16px; width: calc(100% - 32px); align-items: stretch; }
+      .popup-card { width: 100%; }
+    }
 
     /* ===== NAVIGATION ===== */
     .top-location{ position:fixed; top:0; left:0; right:0; z-index:9999; border-bottom:1px solid var(--line); background:rgba(247, 247, 247, 0.8); backdrop-filter: blur(10px); }
@@ -270,8 +241,6 @@
       .hero-container { flex-direction: column; gap: 20px; }
       .hero-container .btn, .cv-options { order: 2; width: 220px; justify-content: center; }
       .hero-credentials { order: 1; }
-      #geo-popup { right: 20px; bottom: 20px; width: calc(100% - 40px); }
-      #reddit-popup { right: 20px; bottom: 120px; width: calc(100% - 40px); }
     }
 
     /* ===== ABOUT SECTION ===== */
@@ -436,28 +405,33 @@
 <body>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBG4JPKN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-  <!-- Reddit Popup -->
-  <div id="reddit-popup" onclick="handleRedditPopupClick(event)">
-    <button class="close-trigger" onclick="minimizeRedditPopup(event)">×</button>
-    <div class="minimized-icon">🔥</div>
-    <div class="popup-content">
-      <div class="popup-kicker">Built by me</div>
-      <h3 class="popup-title">Viral Topic Finder</h3>
-      <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Discover what's trending on Reddit right now.</p>
-      <a href="https://tovapersson.github.io/reddit-finder/" class="popup-btn">Try it out</a>
-    </div>
-  </div>
+  <!-- Popup stack -->
+  <div id="popup-stack">
 
-  <!-- SEO Popup -->
-  <div id="geo-popup" onclick="handlePopupClick(event)">
-    <button class="close-trigger" onclick="minimizePopup(event)">×</button>
-    <div class="minimized-icon">GEO</div>
-    <div class="popup-content">
-      <div class="popup-kicker">Built by me</div>
-      <h3 class="popup-title">GEO Deep Analyzer</h3>
-      <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Get insights into how AI-engines perceive your brand.</p>
-      <a href="https://snazzy-palmier-6ffedd.netlify.app" class="popup-btn" onclick="trackPopupClick()">Try it out</a>
+    <!-- Reddit Popup -->
+    <div id="reddit-popup" class="popup-card" onclick="handleRedditPopupClick(event)">
+      <button class="close-trigger" onclick="minimizeRedditPopup(event)">×</button>
+      <div class="minimized-icon">✦</div>
+      <div class="popup-content">
+        <div class="popup-kicker">Built by me</div>
+        <h3 class="popup-title">Viral Topic Finder</h3>
+        <p class="popup-desc">Discover what's trending on Reddit right now.</p>
+        <a href="https://tovapersson.github.io/reddit-finder/" class="popup-btn">Try it out</a>
+      </div>
     </div>
+
+    <!-- GEO Popup -->
+    <div id="geo-popup" class="popup-card" onclick="handlePopupClick(event)">
+      <button class="close-trigger" onclick="minimizePopup(event)">×</button>
+      <div class="minimized-icon">GEO</div>
+      <div class="popup-content">
+        <div class="popup-kicker">Built by me</div>
+        <h3 class="popup-title">GEO Deep Analyzer</h3>
+        <p class="popup-desc">Get insights into how AI-engines perceive your brand.</p>
+        <a href="https://snazzy-palmier-6ffedd.netlify.app" class="popup-btn" onclick="trackPopupClick()">Try it out</a>
+      </div>
+    </div>
+
   </div>
 
   <div class="top-location">
@@ -483,8 +457,8 @@
             <div id="cv-container-top">
                 <div id="cv-main-btn-top" class="btn" onclick="toggleCV('top')">Download my resume</div>
                 <div id="cv-options-top" class="cv-options">
-                    <a href="CV SWE .pdf" class="btn btn-sm" download onclick="trackDownload('swedish')">Swedish</a>
-                    <a href="Resume - TovaPersson-ENG.pdf" class="btn btn-sm" download onclick="trackDownload('english')">English</a>
+                    <a href="Resume - TovaPersson-Swe.pdf" class="btn btn-sm" download onclick="trackDownload('swedish')">Swedish</a>
+                    <a href="Resume - TovaPersson-Eng.pdf" class="btn btn-sm" download onclick="trackDownload('english')">English</a>
                 </div>
             </div>
             
@@ -553,10 +527,8 @@
         </div>
       </section>
 
-      <!-- ===== NY INSIGHT-SEKTION (ersätter gamla banner-sektionen) ===== -->
       <section id="social-media" class="page">
         <div class="insight-grid">
-
           <div class="insight-left">
             <h2 class="insight-heading">
               Are you still scrolling<br>
@@ -570,12 +542,10 @@
               Download the whitepaper
             </a>
           </div>
-
           <div class="insight-right">
             <div class="img-loader" id="imgLoader">Loading…</div>
             <img id="unsplashImg" src="" alt="Swedish summer" style="opacity:0;" />
           </div>
-
         </div>
       </section>
 
@@ -587,8 +557,8 @@
               <li>
                   <a id="cv-main-btn-bottom" onclick="toggleCV('bottom')">Download my resume</a>
                   <div id="cv-options-bottom" class="bottom-cv-options">
-                      <a href="CV SWE .pdf" download onclick="trackDownload('swedish_bottom')">Swedish</a>
-                      <a href="Resume - TovaPersson-ENG.pdf" download onclick="trackDownload('english_bottom')">English</a>
+                      <a href="Resume - TovaPersson-Swe.pdf" download onclick="trackDownload('swedish_bottom')">Swedish</a>
+                      <a href="Resume - TovaPersson-Eng.pdf" download onclick="trackDownload('english_bottom')">English</a>
                   </div>
               </li>
               <li><a href="mailto:tova.epersson@gmail.com" onclick="window.dataLayer.push({'event': 'contact_click', 'type': 'email'})">Contact me</a></li>
@@ -607,13 +577,10 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ===== POPUP LOGIC ===== (oförändrad från original)
     window.onload = function() {
-      // Reddit popup visas efter 1.5s
       setTimeout(() => {
         document.getElementById('reddit-popup').classList.add('show');
       }, 1500);
-      // SEO popup visas efter 2.5s
       setTimeout(() => {
         document.getElementById('geo-popup').classList.add('show');
       }, 2500);
@@ -652,7 +619,6 @@
         const options = document.getElementById(`cv-options-${position}`);
         mainBtn.style.display = 'none';
         options.style.display = 'flex';
-
         window.dataLayer.push({
             'event': 'lead_magnet_initiate',
             'location': position,
@@ -677,7 +643,6 @@
             { id: 'proj-suie', name: 'SUIE', category: 'E-commerce' },
             { id: 'proj-underyourskin', name: 'Under Your Skin', category: 'CRO' }
         ];
-
         projects.forEach(project => {
             const element = document.getElementById(project.id);
             if (element) {
