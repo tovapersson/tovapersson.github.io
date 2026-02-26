@@ -416,7 +416,7 @@
         <div class="popup-kicker">Built by me</div>
         <h3 class="popup-title">Viral Topic Finder</h3>
         <p class="popup-desc">Discover what's trending on Reddit right now.</p>
-        <a href="https://tovapersson.github.io/reddit-finder/" class="popup-btn">Try it out</a>
+        <a href="https://tovapersson.github.io/reddit-finder/" class="popup-btn" onclick="trackRedditPopupClick()">Try it out</a>
       </div>
     </div>
 
@@ -457,8 +457,8 @@
             <div id="cv-container-top">
                 <div id="cv-main-btn-top" class="btn" onclick="toggleCV('top')">Download my resume</div>
                 <div id="cv-options-top" class="cv-options">
-                    <a href="Resume - TovaPersson-Swe.pdf" class="btn btn-sm" download onclick="trackDownload('swedish')">Swedish</a>
-                    <a href="Resume - TovaPersson-Eng.pdf" class="btn btn-sm" download onclick="trackDownload('english')">English</a>
+                    <a href="Resume - TovaPersson-Swe.pdf" class="btn btn-sm" download onclick="trackDownload('sv', 'top')">Swedish</a>
+                    <a href="Resume - TovaPersson-Eng.pdf" class="btn btn-sm" download onclick="trackDownload('en', 'top')">English</a>
                 </div>
             </div>
             
@@ -468,7 +468,7 @@
               <span class="hero-location">Based in Stockholm, Sweden</span>
             </div>
 
-            <a href="https://www.linkedin.com/in/tovas" target="_blank" class="btn" onclick="window.dataLayer.push({'event': 'social_click', 'platform': 'linkedin'})">Linkedin</a>
+            <a href="https://www.linkedin.com/in/tovas" target="_blank" class="btn" onclick="window.dataLayer.push({'event': 'social_click', 'platform': 'linkedin', 'location': 'hero'})">Linkedin</a>
           </div>
         </div>
       </section>
@@ -538,7 +538,7 @@
             <p class="insight-sub">
               There's a faster way to find what's viral. I put together a whitepaper on how to spot trends before they peak.
             </p>
-            <a class="insight-cta" href="https://tovapersson.github.io/leadmagnet/" target="_blank">
+            <a class="insight-cta" href="https://tovapersson.github.io/leadmagnet/" target="_blank" onclick="trackWhitepaperClick()">
               Download the whitepaper
             </a>
           </div>
@@ -557,12 +557,12 @@
               <li>
                   <a id="cv-main-btn-bottom" onclick="toggleCV('bottom')">Download my resume</a>
                   <div id="cv-options-bottom" class="bottom-cv-options">
-                      <a href="Resume - TovaPersson-Swe.pdf" download onclick="trackDownload('swedish_bottom')">Swedish</a>
-                      <a href="Resume - TovaPersson-Eng.pdf" download onclick="trackDownload('english_bottom')">English</a>
+                      <a href="Resume - TovaPersson-Swe.pdf" download onclick="trackDownload('sv', 'bottom')">Swedish</a>
+                      <a href="Resume - TovaPersson-Eng.pdf" download onclick="trackDownload('en', 'bottom')">English</a>
                   </div>
               </li>
               <li><a href="mailto:tova.epersson@gmail.com" onclick="window.dataLayer.push({'event': 'contact_click', 'type': 'email'})">Contact me</a></li>
-              <li><a href="https://www.linkedin.com/in/tovas" target="_blank" onclick="window.dataLayer.push({'event': 'social_click', 'platform': 'linkedin_bottom'})">LinkedIn</a></li>
+              <li><a href="https://www.linkedin.com/in/tovas" target="_blank" onclick="window.dataLayer.push({'event': 'social_click', 'platform': 'linkedin', 'location': 'footer'})">LinkedIn</a></li>
             </ul>
           </div>
         </div>
@@ -577,114 +577,184 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // ===== POPUP SHOW ON LOAD =====
     window.onload = function() {
       setTimeout(() => {
         document.getElementById('reddit-popup').classList.add('show');
+        window.dataLayer.push({ event: 'popup_shown', tool: 'reddit_finder' });
       }, 1500);
       setTimeout(() => {
         document.getElementById('geo-popup').classList.add('show');
+        window.dataLayer.push({ event: 'popup_shown', tool: 'geo_analyzer' });
       }, 2500);
     };
 
+    // ===== POPUP: GEO =====
     function minimizePopup(e) {
       e.stopPropagation();
       document.getElementById('geo-popup').classList.add('minimized');
+      window.dataLayer.push({ event: 'popup_minimized', tool: 'geo_analyzer' });
     }
 
     function handlePopupClick(e) {
       const popup = document.getElementById('geo-popup');
       if (popup.classList.contains('minimized')) {
         popup.classList.remove('minimized');
+        window.dataLayer.push({ event: 'popup_expanded', tool: 'geo_analyzer' });
       }
     }
 
+    function trackPopupClick() {
+      window.dataLayer.push({ event: 'popup_click', tool: 'geo_analyzer' });
+    }
+
+    // ===== POPUP: REDDIT =====
     function minimizeRedditPopup(e) {
       e.stopPropagation();
       document.getElementById('reddit-popup').classList.add('minimized');
+      window.dataLayer.push({ event: 'popup_minimized', tool: 'reddit_finder' });
     }
 
     function handleRedditPopupClick(e) {
       const popup = document.getElementById('reddit-popup');
       if (popup.classList.contains('minimized')) {
         popup.classList.remove('minimized');
+        window.dataLayer.push({ event: 'popup_expanded', tool: 'reddit_finder' });
       }
     }
 
-    function trackPopupClick() {
-      window.dataLayer.push({'event': 'popup_click', 'tool': 'geo_analyzer'});
+    function trackRedditPopupClick() {
+      window.dataLayer.push({ event: 'popup_click', tool: 'reddit_finder' });
     }
 
+    // ===== CV DOWNLOAD =====
     function toggleCV(position) {
-        const mainBtn = document.getElementById(`cv-main-btn-${position}`);
-        const options = document.getElementById(`cv-options-${position}`);
-        mainBtn.style.display = 'none';
-        options.style.display = 'flex';
-        window.dataLayer.push({
-            'event': 'lead_magnet_initiate',
-            'location': position,
-            'action': 'clicked_main_download_button'
-        });
-    }
-
-    function trackDownload(lang) {
+      const mainBtn = document.getElementById('cv-main-btn-' + position);
+      const options = document.getElementById('cv-options-' + position);
+      mainBtn.style.display = 'none';
+      options.style.display = 'flex';
       window.dataLayer.push({
-          'event': 'lead_magnet_download',
-          'language': lang,
-          'file_type': 'pdf'
+        event: 'lead_magnet_initiate',
+        location: position,
+        action: 'clicked_main_download_button'
       });
     }
 
+    // FIXED: Standardised language + location as separate fields
+    function trackDownload(language, location) {
+      window.dataLayer.push({
+        event: 'lead_magnet_download',
+        language: language,   // 'sv' or 'en'
+        location: location,   // 'top' or 'bottom'
+        file_type: 'pdf'
+      });
+    }
+
+    // ===== WHITEPAPER CTA =====
+    function trackWhitepaperClick() {
+      window.dataLayer.push({
+        event: 'whitepaper_click',
+        section: 'social_media_insight',
+        destination: 'leadmagnet'
+      });
+    }
+
+    // ===== PROJECT CLICKS =====
     (function trackProjectClicks() {
-        const projects = [
-            { id: 'proj-akademibokhandeln', name: 'Akademibokhandeln', category: 'SEO' },
-            { id: 'proj-astrid', name: 'Astrid Textiles', category: 'B2B' },
-            { id: 'proj-common-clouds', name: 'Common Clouds', category: 'SEO' },
-            { id: 'proj-drypops', name: 'Dry Pops', category: 'Social Ads' },
-            { id: 'proj-suie', name: 'SUIE', category: 'E-commerce' },
-            { id: 'proj-underyourskin', name: 'Under Your Skin', category: 'CRO' }
-        ];
-        projects.forEach(project => {
-            const element = document.getElementById(project.id);
-            if (element) {
-                element.addEventListener('click', function() {
-                    window.dataLayer.push({
-                        'event': 'project_click',
-                        'project_info': {
-                            'title': project.name,
-                            'category': project.category,
-                            'id': project.id
-                        },
-                        'timestamp': new Date().toISOString()
-                    });
-                });
-            }
+      const projects = [
+        { id: 'proj-akademibokhandeln', name: 'Akademibokhandeln', category: 'SEO' },
+        { id: 'proj-astrid',            name: 'Astrid Textiles',   category: 'B2B' },
+        { id: 'proj-common-clouds',     name: 'Common Clouds',     category: 'SEO' },
+        { id: 'proj-drypops',           name: 'Dry Pops',          category: 'Social Ads' },
+        { id: 'proj-suie',              name: 'SUIE',              category: 'E-commerce' },
+        { id: 'proj-underyourskin',     name: 'Under Your Skin',   category: 'CRO' }
+      ];
+      projects.forEach(function(project) {
+        var el = document.getElementById(project.id);
+        if (el) {
+          el.addEventListener('click', function() {
+            window.dataLayer.push({
+              event: 'project_click',
+              project_info: {
+                title: project.name,
+                category: project.category,
+                id: project.id
+              },
+              timestamp: new Date().toISOString()
+            });
+          });
+        }
+      });
+    })();
+
+    // ===== SCROLL DEPTH =====
+    (function trackScrollDepth() {
+      var marks = [25, 50, 75, 100];
+      var fired = {};
+      window.addEventListener('scroll', function() {
+        var scrolled = window.scrollY + window.innerHeight;
+        var total = document.documentElement.scrollHeight;
+        var pct = Math.round((scrolled / total) * 100);
+        marks.forEach(function(mark) {
+          if (!fired[mark] && pct >= mark) {
+            fired[mark] = true;
+            window.dataLayer.push({
+              event: 'scroll_depth',
+              percent: mark
+            });
+          }
         });
+      }, { passive: true });
+    })();
+
+    // ===== SECTION VISIBILITY =====
+    (function trackSectionViews() {
+      var sections = document.querySelectorAll('section[id], .masthead');
+      var seen = {};
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var id = entry.target.id || 'hero';
+            if (!seen[id]) {
+              seen[id] = true;
+              window.dataLayer.push({
+                event: 'section_view',
+                section_id: id
+              });
+            }
+          }
+        });
+      }, { threshold: 0.4 });
+      sections.forEach(function(s) { observer.observe(s); });
+    })();
+
+    // ===== TIME ON PAGE =====
+    (function trackTimeOnPage() {
+      [30, 60].forEach(function(seconds) {
+        setTimeout(function() {
+          window.dataLayer.push({
+            event: 'time_on_page',
+            seconds: seconds
+          });
+        }, seconds * 1000);
+      });
     })();
 
     // ===== SUMMER IMAGE SLIDESHOW =====
-    const summerImages = [
-      'summer/1.jpg',
-      'summer/2.jpg',
-      'summer/3.jpg',
-      'summer/4.jpg',
-      'summer/5.jpg',
-      'summer/6.jpg',
-      'summer/7.jpg',
-      'summer/8.jpg',
-      'summer/9.jpg',
-      'summer/10.jpg',
+    var summerImages = [
+      'summer/1.jpg','summer/2.jpg','summer/3.jpg','summer/4.jpg','summer/5.jpg',
+      'summer/6.jpg','summer/7.jpg','summer/8.jpg','summer/9.jpg','summer/10.jpg'
     ];
-
-    let imgCounter = 0;
+    var imgCounter = 0;
 
     function loadInsightImage() {
-      const img = document.getElementById('unsplashImg');
-      const url = summerImages[imgCounter % summerImages.length];
+      var img = document.getElementById('unsplashImg');
+      var url = summerImages[imgCounter % summerImages.length];
       imgCounter++;
-      const tmp = new Image();
-      tmp.onload = () => {
+      var tmp = new Image();
+      tmp.onload = function() {
         img.style.opacity = 0;
-        setTimeout(() => {
+        setTimeout(function() {
           img.src = tmp.src;
           img.style.opacity = 1;
           document.getElementById('imgLoader').style.display = 'none';
