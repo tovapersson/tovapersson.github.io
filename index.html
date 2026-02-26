@@ -696,26 +696,26 @@
         });
     })();
 
-    // ===== UNSPLASH AUTO-REFRESH =====
-    const insightQueries = [
-      'swedish summer nature',
-      'sweden summer lake',
-      'scandinavian summer aesthetic',
-      'swedish archipelago summer',
-      'nordic summer meadow',
-      'sweden midsummer',
-      'scandinavian cottage summer',
-      'swedish summer flowers',
+    // ===== SUMMER IMAGE SLIDESHOW =====
+    const summerImages = [
+      'summer/1.jpg',
+      'summer/2.jpg',
+      'summer/3.jpg',
+      'summer/4.jpg',
+      'summer/5.jpg',
+      'summer/6.jpg',
+      'summer/7.jpg',
+      'summer/8.jpg',
+      'summer/9.jpg',
+      'summer/10.jpg',
     ];
 
     let imgCounter = 0;
 
     function loadInsightImage() {
       const img = document.getElementById('unsplashImg');
-      const query = insightQueries[imgCounter % insightQueries.length];
+      const url = summerImages[imgCounter % summerImages.length];
       imgCounter++;
-      const seed = Math.floor(Math.random() * 9999);
-      const url = `https://source.unsplash.com/900x600/?${encodeURIComponent(query)}&sig=${seed}`;
       const tmp = new Image();
       tmp.onload = () => {
         img.style.opacity = 0;
