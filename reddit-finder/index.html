@@ -371,6 +371,25 @@
   </style>
 </head>
 <body>
+  <div style="padding: 24px 28px 0; max-width: 780px; margin: 0 auto;">
+    <a href="https://tovapersson.github.io/" style="
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.2s;
+    " onmouseover="this.style.color='#1a1a1a';this.style.borderColor='#1a1a1a'" onmouseout="this.style.color='#888580';this.style.borderColor='#e0ddd9'">← Back to Portfolio</a>
+  </div>
+
   <div class="container">
     <header>
       <div class="eyebrow">Live Reddit Data</div>
@@ -381,7 +400,7 @@
 
     <div class="search-wrap">
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Try: skincare, AI tools, startups..." />
+        <input type="text" id="searchInput" placeholder="Try: skincare, AI tools, startups, hästar..." />
         <button onclick="search()">Search</button>
       </div>
       <div class="filters">
