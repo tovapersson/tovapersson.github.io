@@ -370,10 +370,34 @@
     }
 
     /* ===== CONTACT SECTION ===== */
-    #promo .frame { height: 75vh; width: 100vw; position: relative; overflow: hidden; }
-    #promo .frame img { width: 100%; height: 100%; object-fit: cover; }
-    #promo .overlay { position: absolute; right: 5%; bottom: 10%; text-align: right; }
-    #promo .cta-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    #promo .frame {
+      height: 75vh;
+      width: 100vw;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #promo .frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    #promo .overlay {
+      position: absolute;
+      right: 5%;
+      bottom: 10%;
+      text-align: right;
+    }
+
+    #promo .cta-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
     
     #promo .cta-list a { 
       color: var(--red-accent); 
@@ -390,6 +414,36 @@
     #promo .cta-list a:hover { 
       color: #fff; 
       transform: translateX(-5px); 
+    }
+
+    /* ===== MOBILE: PROMO ===== */
+    @media (max-width: 768px) {
+      #promo .frame {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #promo .frame img {
+        height: 40vh;
+        object-position: center 20%;
+        flex-shrink: 0;
+      }
+
+      #promo .overlay {
+        position: static;
+        text-align: left;
+        padding: 40px 24px;
+        background: var(--bg);
+      }
+
+      #promo .cta-list a {
+        font-size: clamp(20px, 6vw, 28px);
+      }
+
+      #promo .cta-list a:hover {
+        transform: translateX(5px);
+      }
     }
 
     .bottom-cv-options {
@@ -577,7 +631,6 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ===== POPUP SHOW ON LOAD =====
     window.onload = function() {
       setTimeout(() => {
         document.getElementById('reddit-popup').classList.add('show');
@@ -589,7 +642,6 @@
       }, 2500);
     };
 
-    // ===== POPUP: GEO =====
     function minimizePopup(e) {
       e.stopPropagation();
       document.getElementById('geo-popup').classList.add('minimized');
@@ -608,7 +660,6 @@
       window.dataLayer.push({ event: 'popup_click', tool: 'geo_analyzer' });
     }
 
-    // ===== POPUP: REDDIT =====
     function minimizeRedditPopup(e) {
       e.stopPropagation();
       document.getElementById('reddit-popup').classList.add('minimized');
@@ -627,7 +678,6 @@
       window.dataLayer.push({ event: 'popup_click', tool: 'reddit_finder' });
     }
 
-    // ===== CV DOWNLOAD =====
     function toggleCV(position) {
       const mainBtn = document.getElementById('cv-main-btn-' + position);
       const options = document.getElementById('cv-options-' + position);
@@ -640,17 +690,15 @@
       });
     }
 
-    // FIXED: Standardised language + location as separate fields
     function trackDownload(language, location) {
       window.dataLayer.push({
         event: 'lead_magnet_download',
-        language: language,   // 'sv' or 'en'
-        location: location,   // 'top' or 'bottom'
+        language: language,
+        location: location,
         file_type: 'pdf'
       });
     }
 
-    // ===== WHITEPAPER CTA =====
     function trackWhitepaperClick() {
       window.dataLayer.push({
         event: 'whitepaper_click',
@@ -659,7 +707,6 @@
       });
     }
 
-    // ===== PROJECT CLICKS =====
     (function trackProjectClicks() {
       const projects = [
         { id: 'proj-akademibokhandeln', name: 'Akademibokhandeln', category: 'SEO' },
@@ -687,7 +734,6 @@
       });
     })();
 
-    // ===== SCROLL DEPTH =====
     (function trackScrollDepth() {
       var marks = [25, 50, 75, 100];
       var fired = {};
@@ -698,16 +744,12 @@
         marks.forEach(function(mark) {
           if (!fired[mark] && pct >= mark) {
             fired[mark] = true;
-            window.dataLayer.push({
-              event: 'scroll_depth',
-              percent: mark
-            });
+            window.dataLayer.push({ event: 'scroll_depth', percent: mark });
           }
         });
       }, { passive: true });
     })();
 
-    // ===== SECTION VISIBILITY =====
     (function trackSectionViews() {
       var sections = document.querySelectorAll('section[id], .masthead');
       var seen = {};
@@ -717,10 +759,7 @@
             var id = entry.target.id || 'hero';
             if (!seen[id]) {
               seen[id] = true;
-              window.dataLayer.push({
-                event: 'section_view',
-                section_id: id
-              });
+              window.dataLayer.push({ event: 'section_view', section_id: id });
             }
           }
         });
@@ -728,19 +767,14 @@
       sections.forEach(function(s) { observer.observe(s); });
     })();
 
-    // ===== TIME ON PAGE =====
     (function trackTimeOnPage() {
       [30, 60].forEach(function(seconds) {
         setTimeout(function() {
-          window.dataLayer.push({
-            event: 'time_on_page',
-            seconds: seconds
-          });
+          window.dataLayer.push({ event: 'time_on_page', seconds: seconds });
         }, seconds * 1000);
       });
     })();
 
-    // ===== SUMMER IMAGE SLIDESHOW =====
     var summerImages = [
       'summer/1.jpg','summer/2.jpg','summer/3.jpg','summer/4.jpg','summer/5.jpg',
       'summer/6.jpg','summer/7.jpg','summer/8.jpg','summer/9.jpg','summer/10.jpg'
