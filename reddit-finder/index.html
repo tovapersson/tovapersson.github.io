@@ -83,50 +83,8 @@
       margin: 24px auto 0;
     }
 
-    /* Tabs */
-    .tabs {
-      display: flex;
-      gap: 0;
-      margin: 44px 0 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .tab-btn {
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
-      padding: 12px 24px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .tab-btn:hover { color: var(--text); }
-
-    .tab-btn.active {
-      color: var(--text);
-      border-bottom-color: var(--text);
-    }
-
-    .saved-count {
-      background: var(--text);
-      color: white;
-      font-size: 9px;
-      border-radius: 999px;
-      padding: 2px 7px;
-      letter-spacing: 0;
-    }
-
     /* Search */
-    .search-wrap { margin: 28px 0 16px; }
+    .search-wrap { margin: 44px 0 16px; }
 
     .search-box {
       display: flex;
@@ -261,7 +219,6 @@
       overflow: hidden;
       transition: border-color 0.2s, box-shadow 0.2s;
       animation: fadeUp 0.3s ease both;
-      position: relative;
     }
 
     .card:hover {
@@ -297,7 +254,7 @@
     }
 
     .card-body {
-      padding: 20px 52px 20px 24px;
+      padding: 20px 24px;
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -380,52 +337,6 @@
       line-height: 1.5;
     }
 
-    /* Like button */
-    .like-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      width: 34px;
-      height: 34px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 14px;
-      transition: all 0.2s;
-      z-index: 2;
-      line-height: 1;
-    }
-
-    .like-btn:hover {
-      border-color: #ccc;
-      transform: scale(1.1);
-    }
-
-    .like-btn.liked {
-      background: #fff0f0;
-      border-color: #f4b8b8;
-    }
-
-    /* Saved view */
-    .saved-view { display: none; }
-    .saved-view.show { display: block; }
-
-    .discover-view { display: block; }
-    .discover-view.hide { display: none; }
-
-    .empty-saved {
-      text-align: center;
-      padding: 72px 0;
-      color: var(--muted);
-    }
-
-    .empty-saved .icon { font-size: 1.8rem; margin-bottom: 14px; opacity: 0.3; }
-    .empty-saved p { font-style: italic; font-size: 1rem; }
-
     .error-msg {
       display: none;
       text-align: center;
@@ -468,58 +379,34 @@
       <div class="divider"></div>
     </header>
 
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('discover')">Discover</button>
-      <button class="tab-btn" id="savedTab" onclick="showTab('saved')">
-        Saved <span class="saved-count" id="savedCount">0</span>
-      </button>
+    <div class="search-wrap">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Try: skincare, AI tools, startups..." />
+        <button onclick="search()">Search</button>
+      </div>
+      <div class="filters">
+        <span class="filter-label">Sort by</span>
+        <button class="filter-btn active" onclick="setSort('hot', this)">Hot</button>
+        <button class="filter-btn" onclick="setSort('top', this)">Top</button>
+        <button class="filter-btn" onclick="setSort('new', this)">New</button>
+      </div>
     </div>
 
-    <!-- Discover view -->
-    <div class="discover-view" id="discoverView">
-      <div class="search-wrap">
-        <div class="search-box">
-          <input type="text" id="searchInput" placeholder="Try: skincare, AI tools, startups, hästar..." />
-          <button onclick="search()">Search</button>
-        </div>
-        <div class="filters">
-          <span class="filter-label">Sort by</span>
-          <button class="filter-btn active" onclick="setSort('hot', this)">Hot</button>
-          <button class="filter-btn" onclick="setSort('top', this)">Top</button>
-          <button class="filter-btn" onclick="setSort('new', this)">New</button>
-        </div>
-      </div>
-
-      <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <p>Loading trending posts...</p>
-      </div>
-
-      <div class="error-msg" id="errorMsg">
-        Something went wrong. Reddit may be rate limiting — please try again in a moment.
-      </div>
-
-      <div class="results-header" id="resultsHeader">
-        <div class="results-title" id="resultsTitle">What's <span>trending right now</span></div>
-        <div class="count-badge" id="countBadge"></div>
-      </div>
-
-      <div class="results" id="results"></div>
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Loading trending posts...</p>
     </div>
 
-    <!-- Saved view -->
-    <div class="saved-view" id="savedView">
-      <div class="results-header" style="margin-top: 28px;">
-        <div class="results-title">Your <span>saved posts</span></div>
-        <div class="count-badge" id="savedCountLabel"></div>
-      </div>
-      <div class="empty-saved" id="emptySaved">
-        <div class="icon">♡</div>
-        <p>You haven't saved any posts yet — hit the heart on posts you love!</p>
-      </div>
-      <div class="results" id="savedResults"></div>
+    <div class="error-msg" id="errorMsg">
+      Something went wrong. Reddit may be rate limiting — please try again in a moment.
     </div>
+
+    <div class="results-header" id="resultsHeader">
+      <div class="results-title" id="resultsTitle">What's <span>trending right now</span></div>
+      <div class="count-badge" id="countBadge"></div>
+    </div>
+
+    <div class="results" id="results"></div>
 
     <footer>
       Powered by the <a href="https://www.reddit.com/dev/api/" target="_blank">Reddit API</a> · Data refreshed on each search
@@ -529,31 +416,6 @@
   <script>
     let currentSort = 'hot';
     let currentQuery = '';
-    let liked = JSON.parse(localStorage.getItem('vtf_liked') || '{}');
-
-    function saveLiked() {
-      localStorage.setItem('vtf_liked', JSON.stringify(liked));
-      updateSavedCount();
-    }
-
-    function updateSavedCount() {
-      const count = Object.keys(liked).length;
-      document.getElementById('savedCount').textContent = count;
-    }
-
-    function showTab(tab) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      if (tab === 'discover') {
-        document.querySelectorAll('.tab-btn')[0].classList.add('active');
-        document.getElementById('discoverView').classList.remove('hide');
-        document.getElementById('savedView').classList.remove('show');
-      } else {
-        document.querySelectorAll('.tab-btn')[1].classList.add('active');
-        document.getElementById('discoverView').classList.add('hide');
-        document.getElementById('savedView').classList.add('show');
-        renderSaved();
-      }
-    }
 
     function setSort(sort, btn) {
       currentSort = sort;
@@ -600,15 +462,13 @@
       return null;
     }
 
-    function createCard(post, isSavedView = false) {
+    function createCard(post) {
       const badge = getViralBadge(post.score);
       const idea = getContentIdea(post);
       const thumb = getThumbnail(post);
-      const isLiked = !!liked[post.id];
 
       const card = document.createElement('div');
       card.className = 'card';
-      card.id = `card-${post.id}`;
       card.innerHTML = `
         <a class="card-link" href="https://reddit.com${post.permalink}" target="_blank" rel="noopener noreferrer">
           <div class="card-inner">
@@ -638,66 +498,8 @@
             <p>${idea}</p>
           </div>
         </a>
-        <button class="like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(event, '${post.id}')" title="${isLiked ? 'Remove from saved' : 'Save post'}">
-          ${isLiked ? '♥' : '♡'}
-        </button>
       `;
       return card;
-    }
-
-    function toggleLike(e, postId) {
-      e.stopPropagation();
-      e.preventDefault();
-
-      if (liked[postId]) {
-        delete liked[postId];
-      } else {
-        // Find post data from DOM to save
-        const card = document.getElementById(`card-${postId}`);
-        if (card) {
-          liked[postId] = { id: postId, _savedAt: Date.now() };
-        }
-      }
-
-      // Update all buttons with this postId on page
-      document.querySelectorAll(`#card-${postId} .like-btn`).forEach(btn => {
-        btn.classList.toggle('liked', !!liked[postId]);
-        btn.textContent = liked[postId] ? '♥' : '♡';
-        btn.title = liked[postId] ? 'Remove from saved' : 'Save post';
-      });
-
-      saveLiked();
-    }
-
-    function renderSaved() {
-      const savedContainer = document.getElementById('savedResults');
-      const emptyMsg = document.getElementById('emptySaved');
-      const countLabel = document.getElementById('savedCountLabel');
-      savedContainer.innerHTML = '';
-
-      const keys = Object.keys(liked);
-      countLabel.textContent = `${keys.length} post${keys.length !== 1 ? 's' : ''}`;
-
-      if (keys.length === 0) {
-        emptyMsg.style.display = 'block';
-        return;
-      }
-
-      emptyMsg.style.display = 'none';
-
-      // Re-fetch saved posts from Reddit by their IDs
-      const ids = keys.join(',');
-      fetch(`https://www.reddit.com/by_id/${keys.map(id => 't3_' + id).join(',')}.json`)
-        .then(r => r.json())
-        .then(data => {
-          const posts = data.data.children.map(c => c.data);
-          posts.forEach(post => {
-            savedContainer.appendChild(createCard(post, true));
-          });
-        })
-        .catch(() => {
-          savedContainer.innerHTML = '<p style="color:var(--muted);font-style:italic;text-align:center;padding:24px">Could not load saved posts right now.</p>';
-        });
     }
 
     async function loadPosts() {
@@ -743,7 +545,6 @@
       loadPosts();
     }
 
-    updateSavedCount();
     loadPosts();
   </script>
 </body>
